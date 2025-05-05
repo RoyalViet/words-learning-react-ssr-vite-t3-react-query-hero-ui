@@ -14,7 +14,8 @@ export type IUserInfo =
 export type IBookItem = {
   id: number;
   slug: string;
-  cover: string;
+  image: string;
+  link: string;
   name: string;
   wordsCount: number;
 };

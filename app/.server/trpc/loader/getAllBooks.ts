@@ -7,7 +7,8 @@ const prepare = db
   .select({
     id: Book.id,
     slug: Book.slug,
-    cover: Book.cover,
+    image: Book.image,
+    link: Book.link,
     name: Book.name,
     wordsCount: count(Word.id),
   })

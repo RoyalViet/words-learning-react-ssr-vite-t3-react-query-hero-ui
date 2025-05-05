@@ -20,7 +20,7 @@ export const sendVerifyCodeToEmail = async ({
   verifyCode: string;
 }) => {
   return transporter.sendMail({
-    from: `"WordsFunny" <${process.env.EMAIL_SERVER_ADDRESS}>`,
+    from: `"Words Learning" <${process.env.EMAIL_SERVER_ADDRESS}>`,
     to: email,
     subject: `Verification Code: ${verifyCode}`,
     text: "Please check your verification code",

@@ -53,7 +53,8 @@ export const Book = pgTable("Book", {
   id: serial("id").primaryKey(),
   slug: varchar("slug").notNull().unique(),
   name: varchar("name").notNull(),
-  cover: varchar("cover").notNull(),
+  image: varchar("image").notNull(),
+  link: varchar("link").notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt")
     .notNull()
@@ -69,6 +70,14 @@ export const Word = pgTable("Word", {
   word: varchar("word").notNull(),
   usPronounce: varchar("usPronounce").notNull(),
   ukPronounce: varchar("ukPronounce").notNull(),
+  usAudioMp3: varchar("usAudioMp3"),
+  usAudioOgg: varchar("usAudioOgg"),
+  ukAudioMp3: varchar("ukAudioMp3"),
+  ukAudioOgg: varchar("ukAudioOgg"),
+  href: varchar("href"),
+  type: varchar("type"),
+  level: varchar("level"),
+  translation: varchar("translation").notNull(),
   remember: varchar("remember").notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt")

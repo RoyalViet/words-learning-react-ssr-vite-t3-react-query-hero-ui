@@ -51,7 +51,11 @@ export const BookPanelItem = ({
         <div className="flex items-center gap-4">
           <Image
             alt={item.slug}
-            src={`/books/${item.slug}.webp`}
+            // src={`/books/${item.slug}.webp`}
+            // src={item.image}
+            src={
+              "https://png.pngtree.com/png-clipart/20190905/original/pngtree-book-pencil-study-book-png-image_4507678.jpg"
+            }
             height={60}
             width={60 * ratio}
           />

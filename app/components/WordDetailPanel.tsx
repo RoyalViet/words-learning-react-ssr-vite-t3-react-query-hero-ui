@@ -51,7 +51,7 @@ export const WordDetailPanel = () => {
 
   const renderWordDetail = () => {
     const {
-      Word: { word, remember, usPronounce, bookSlug },
+      Word: { word, remember, usPronounce, bookSlug, translation },
       Book: { name: bookName },
     } = wordDetail;
 
@@ -61,7 +61,6 @@ export const WordDetailPanel = () => {
           <div className="font-Merriweather text-4xl">{word}</div>
           <CloseWordDetailDrawerButton />
         </div>
-
         <Link
           to={href("/:bookSlug/words", { bookSlug })}
           onClick={() => {
@@ -72,14 +71,17 @@ export const WordDetailPanel = () => {
         >
           <small>{bookName}</small>
         </Link>
-
         {!!usPronounce && (
           <div className="flex items-center gap-2">
             <WordAudioButton word={word} />
-            <div>/{usPronounce}/</div>
+            <div>{usPronounce}</div>
           </div>
         )}
-
+        {!!translation && (
+          <div className="flex items-center gap-2">
+            <div>{translation}</div>
+          </div>
+        )}
         {!!remember && (
           <div className="border-primary bg-primary-50 box-content border p-2">
             {remember}

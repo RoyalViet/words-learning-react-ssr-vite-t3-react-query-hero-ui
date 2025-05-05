@@ -49,13 +49,16 @@ export function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="study English words so funny" />
+        <meta
+          name="description"
+          content="study English words so wordsTranslation"
+        />
         <meta name="keywords" content="english,words,study" />
         <meta name="author" content="https://github.com" />
         <meta name="repository" content="https://github.com/" />
         <Meta />
         <Links />
-        <title>WordsFunny</title>
+        <title>wordsTranslation</title>
       </head>
       <body>
         {children}
