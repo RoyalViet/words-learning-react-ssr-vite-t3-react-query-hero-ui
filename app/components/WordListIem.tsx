@@ -20,7 +20,7 @@ export const WordListIem = ({ item }: { item: IWordItem }) => {
 
   const {
     Book: { name: bookName } = {},
-    Word: { slug: wordSlug, word },
+    Word: { slug: wordSlug, word, type },
   } = item;
 
   const { isLogin } = useMyUserInfo();
@@ -74,7 +74,10 @@ export const WordListIem = ({ item }: { item: IWordItem }) => {
       }}
     >
       <div className="flex flex-col justify-center gap-1">
-        <div className="font-Merriweather text-4xl">{word}</div>
+        <div className="flex items-center gap-2">
+          <div className="font-Merriweather text-4xl">{word}</div>
+          <span>[{type}]</span>
+        </div>
         {!!bookName && (
           <small className="text-foreground-400">{bookName}</small>
         )}

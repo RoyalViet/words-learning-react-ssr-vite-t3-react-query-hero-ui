@@ -45,7 +45,7 @@ A fullstack English words study website built with [remix-t3-stack](https://gith
 - first run command below to create a local postgres container (you can replace the `POSTGRES_PASSWORD_EXAMPLE`):
 
 ```sh
-docker run -d --name postgres -p 5432:5432 -v postgres_data:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=POSTGRES_PASSWORD_EXAMPLE -e POSTGRES_DB=wordsTranslation postgres:16-alpine
+docker run -d --name postgres -p 5432:5432 -v postgres_data:/var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=POSTGRES_PASSWORD_EXAMPLE -e POSTGRES_DB=words-learning postgres:16-alpine
 ```
 
 - run command `pnpm db:push` to sync db structs and drizzle schema
@@ -94,7 +94,7 @@ ssh root@HOST "cd ~/app-name && pm2 start npm -- start"
 # notice
 
 - suggest node version greater than 22
-- when you dev local, you should run `docker stop wordsTranslation-app` first to stop container to avoid port 3001 occupation
+- when you dev local, you should run `docker stop words-learning-app` first to stop container to avoid port 3001 occupation
 - words resource [repo](https://github.com/kajweb/dict)
 - more features will be added gradually
 - a more simple `remix-t3-stack` project for beginners is here: [remix-t3-stack](https://github.com/)

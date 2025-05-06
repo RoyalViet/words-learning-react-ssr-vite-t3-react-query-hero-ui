@@ -52,8 +52,8 @@ export const BookPanelItem = ({
           <Image
             alt={item.slug}
             // src={`/books/${item.slug}.webp`}
-            // src={item.image}
             src={
+              item.image ||
               "https://png.pngtree.com/png-clipart/20190905/original/pngtree-book-pencil-study-book-png-image_4507678.jpg"
             }
             height={60}

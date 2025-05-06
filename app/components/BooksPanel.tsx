@@ -8,10 +8,18 @@ export const BooksPanel = ({
   allBooks: IBookItem[];
   starBooks: string[];
 }) => {
-  const booksList = [
-    ...allBooks.filter((e) => starBooks.includes(e.slug)),
-    ...allBooks.filter((e) => !starBooks.includes(e.slug)),
-  ];
+  const booksList = [...allBooks].sort((a, b) => {
+    if (a.id === 1) return -1;
+    if (b.id === 1) return 1;
+
+    const aIsStarred = starBooks.includes(a.slug);
+    const bIsStarred = starBooks.includes(b.slug);
+
+    if (aIsStarred && !bIsStarred) return -1;
+    if (!aIsStarred && bIsStarred) return 1;
+
+    return 0;
+  });
 
   return (
     <>

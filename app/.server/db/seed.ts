@@ -1,4 +1,4 @@
-export const boolsData = [
+export const booksData = [
   {
     slug: "oxford-3000",
     name: "Oxford 3000 Vocabulary",

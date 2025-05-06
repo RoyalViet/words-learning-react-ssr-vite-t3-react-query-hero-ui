@@ -51,14 +51,14 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="study English words so wordsTranslation"
+          content="study English words so words-learning"
         />
         <meta name="keywords" content="english,words,study" />
         <meta name="author" content="https://github.com" />
         <meta name="repository" content="https://github.com/" />
         <Meta />
         <Links />
-        <title>wordsTranslation</title>
+        <title>words-learning</title>
       </head>
       <body>
         {children}
