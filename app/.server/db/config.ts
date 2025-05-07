@@ -6,6 +6,7 @@ export default defineConfig({
   dbCredentials: {
     url: process.env.DATABASE_URL,
   },
-  verbose: true, // Hiển thị chi tiết khi chạy migration
-  strict: true, // Đảm bảo migration chính xác
+  verbose: true,
+  strict: true,
+  out: "./drizzle/migrations",
 });

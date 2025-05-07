@@ -1,3 +1,4 @@
+// import { sql } from "drizzle-orm";
 import { db } from ".";
 import { Word } from "./schema";
 import { Book } from "./schema";
@@ -5,7 +6,8 @@ import { booksData, wordsData } from "./seed";
 
 // here to run some db task
 const runTask = async () => {
-  // total words count
+  // Delete all records from the Book table using SQL, cascade to related tables
+
   const wordsCount = await db.$count(Word);
   console.log(`total words count: ${wordsCount}`);
 
