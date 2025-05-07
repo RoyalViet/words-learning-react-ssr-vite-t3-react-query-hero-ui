@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { ListTabType } from "./types";
 
+export const isCollapsibleSidebarOpenAtom = atom(false);
 export const isBooksPanelDrawerOpenAtom = atom(false);
 export const isWordDetailPanelDrawerOpenAtom = atom(false);
 export const isSearchBarOpenAtom = atom(false);

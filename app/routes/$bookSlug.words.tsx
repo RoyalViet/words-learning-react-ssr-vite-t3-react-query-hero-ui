@@ -1,6 +1,6 @@
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { SearchWordsList } from "~/components/SearchWordsList";
-import { BookWordsList } from "~/components/BookWordsList";
+import { BookWordsList } from "~/ui/components/BookWordsList";
 import { SearchBar } from "~/components/SearchBar";
 import { ListTabs } from "~/components/ListTabs";
 import { OpenMenuButton } from "~/components/OpenMenuButton";
@@ -9,6 +9,16 @@ import { useAtomValue } from "jotai";
 import { isSearchBarOpenAtom } from "~/common/store";
 
 export default function PageWords() {
+  const { searchWord } = useDebounceSearchWord();
+
+  return (
+    <div className="flex w-full flex-col">
+      {searchWord ? <SearchWordsList /> : <BookWordsList />}
+    </div>
+  );
+}
+
+export function Older() {
   const { searchWord } = useDebounceSearchWord();
   const isSearchBarOpen = useAtomValue(isSearchBarOpenAtom);
 

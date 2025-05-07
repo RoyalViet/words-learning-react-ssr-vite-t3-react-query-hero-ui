@@ -1,17 +1,14 @@
-import React from "react";
-import { Card, CardBody, Button, Divider } from "@heroui/react";
+import { Button, Card, CardBody, Divider } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { IWordItem } from "~/common/types";
+import { WordAudioButton } from "./WordAudioButton";
 
 export interface WordEntry {
   id: string;
-  word: string;
-  type: string;
-  pronunciation?: string;
-  definition?: string;
-  examples?: string[];
-  translation?: string;
   isFavorite?: boolean;
+  info?: IWordItem;
 }
 
 export interface WordList {
@@ -22,28 +19,19 @@ export interface WordList {
 }
 
 interface DictionaryEntryProps extends WordEntry {
-  onToggleFavorite: () => void;
-  onPlayPronunciation: () => void;
+  // onToggleFavorite: () => void;
 }
 
-export function DictionaryEntry({
-  word,
-  type,
-  pronunciation,
-  definition,
-  translation,
-  examples = [
-    "Scientists are working on highly advanced technology to replace fossil fuels.",
-    "It is a technologically advanced society.",
-    "Even in advanced industrial societies, poverty persists.",
-    "Economically advanced developing countries must make a contribution.",
-    "Sweden has a reputation for advanced and stylish design.",
-  ],
-  isFavorite,
-  onToggleFavorite,
-  onPlayPronunciation,
-}: DictionaryEntryProps) {
-  const [isExpanded, setIsExpanded] = React.useState(false);
+export function DictionaryEntry({ isFavorite, info }: DictionaryEntryProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { Word } = info || {};
+  const { word, type, translation, remember } = Word || {};
+
+  // const wordDetailSlug = useAtomValue(wordDetailSlugAtom);
+  // const setSearchWord = useSetAtom(searchWordAtom);
+  // const setIsWordDetailPanelDrawerOpen = useSetAtom(
+  //   isWordDetailPanelDrawerOpenAtom,
+  // );
 
   return (
     <Card className="mb-4">
@@ -54,14 +42,18 @@ export function DictionaryEntry({
               <div className="flex w-full items-center justify-between gap-1">
                 <h2 className="text-xl font-semibold">{word}</h2>
                 <div className="flex gap-2">
-                  <Button
+                  {/* <Button
                     isIconOnly
                     variant="light"
-                    onPress={onPlayPronunciation}
+                    onPress={() => {
+                      setSearchWord("");
+                      setIsWordDetailPanelDrawerOpen(false);
+                    }}
                   >
                     <Icon icon="lucide:volume-2" className="text-xl" />
-                  </Button>
-                  <Button isIconOnly variant="light" onPress={onToggleFavorite}>
+                  </Button> */}
+                  <WordAudioButton word={word!} />
+                  <Button isIconOnly variant="light">
                     <Icon
                       icon={
                         isFavorite
@@ -87,17 +79,13 @@ export function DictionaryEntry({
               </div>
               <div className="flex justify-between gap-1">
                 <span className="text-small text-default-500">[{type}]</span>
-                {pronunciation && (
+                {Word?.usPronounce && (
                   <span className="text-small text-default-400">
-                    /{pronunciation}/
+                    {Word?.usPronounce}
                   </span>
                 )}
               </div>
             </div>
-
-            {translation && (
-              <p className="text-default-600 mb-2">{translation}</p>
-            )}
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
@@ -106,20 +94,18 @@ export function DictionaryEntry({
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {definition && (
-                    <p className="text-default-600 mb-3">{definition}</p>
+                  <Divider className="my-3" />
+                  {translation && (
+                    <p className="text-default-600 mb-3">{translation}</p>
                   )}
-                  {examples && examples.length > 0 && (
-                    <>
-                      <Divider className="my-3" />
-                      <div className="space-y-2">
-                        {examples.map((example, index) => (
-                          <p key={index} className="text-sm">
-                            • {example}
-                          </p>
-                        ))}
-                      </div>
-                    </>
+                  {remember && remember.length > 0 && (
+                    <div className="space-y-2">
+                      {[...JSON.parse(remember)].map((example, index) => (
+                        <p key={index} className="text-sm">
+                          • {example}
+                        </p>
+                      ))}
+                    </div>
                   )}
                 </motion.div>
               )}

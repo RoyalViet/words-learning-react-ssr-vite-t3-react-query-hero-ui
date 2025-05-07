@@ -6,7 +6,7 @@ import { IBookItem } from "~/common/types";
 import { Drawer, DrawerContent } from "@heroui/react";
 import { useAtom } from "jotai";
 import {
-  isBooksPanelDrawerOpenAtom,
+  isCollapsibleSidebarOpenAtom,
   isWordDetailPanelDrawerOpenAtom,
 } from "~/common/store";
 import { useMobile } from "~/hooks/useMobile";
@@ -20,8 +20,8 @@ export const AppLayout = ({
   starBooks: string[];
   children: ReactNode;
 }) => {
-  const [isBooksPanelDrawerOpen, setIsBooksPanelDrawerOpen] = useAtom(
-    isBooksPanelDrawerOpenAtom,
+  const [isCollapsibleSidebarOpen, setIsCollapsibleSidebarOpen] = useAtom(
+    isCollapsibleSidebarOpenAtom,
   );
   const [isWordDetailPanelDrawerOpen, setIsWordDetailPanelDrawerOpen] = useAtom(
     isWordDetailPanelDrawerOpenAtom,
@@ -36,8 +36,8 @@ export const AppLayout = ({
           placement="left"
           backdrop="blur"
           className="block xl:hidden"
-          isOpen={isBooksPanelDrawerOpen}
-          onOpenChange={setIsBooksPanelDrawerOpen}
+          isOpen={isCollapsibleSidebarOpen}
+          onOpenChange={setIsCollapsibleSidebarOpen}
           hideCloseButton
         >
           <DrawerContent>

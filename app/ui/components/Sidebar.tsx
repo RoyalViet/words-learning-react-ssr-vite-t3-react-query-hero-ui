@@ -1,5 +1,13 @@
 import React from "react";
 import { Card, CardBody, Link } from "@heroui/react";
+import { cx } from "~/helper/common";
+import { useAtom } from "jotai";
+import { isCollapsibleSidebarOpenAtom } from "~/common/store";
+import { IBookItem } from "~/common/types";
+import { useParams } from "react-router";
+import { BooksPanel } from "./BooksPanel";
+import { useMobile } from "~/hooks/useMobile";
+import { AnimatePresence, motion } from "framer-motion";
 
 export const Sidebar: React.FC = () => {
   return (
@@ -43,5 +51,48 @@ export const Sidebar: React.FC = () => {
         </CardBody>
       </Card>
     </>
+  );
+};
+
+export const CollapsibleSidebar: React.FC<{
+  allBooks: IBookItem[];
+  starBooks: string[];
+}> = ({ allBooks, starBooks }) => {
+  const { bookSlug = "" } = useParams<{ bookSlug: string }>();
+  const { isMobile } = useMobile();
+  const [isCollapsibleSidebarOpen] = useAtom(isCollapsibleSidebarOpenAtom);
+
+  return (
+    <div
+      className={cx(
+        `h-dvh overflow-auto transition-all duration-300`,
+        !isCollapsibleSidebarOpen ? "w-[80px]" : "w-[240px]",
+        isMobile && "hidden",
+      )}
+    >
+      <div className="flex h-full flex-col">
+        <div className="flex items-center justify-between p-4">
+          <AnimatePresence mode="wait">
+            {isCollapsibleSidebarOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="sm:hidden"
+              >
+                <h2
+                  className={`flex h-10 items-center justify-start text-lg font-semibold transition-opacity`}
+                >
+                  {allBooks.find((book) => book.slug === bookSlug)?.name}
+                </h2>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <BooksPanel allBooks={allBooks} starBooks={starBooks} />
+      </div>
+    </div>
   );
 };

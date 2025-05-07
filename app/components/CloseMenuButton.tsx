@@ -2,10 +2,10 @@ import { Button } from "@heroui/react";
 import { LuIcon } from "~/components/LuIcon";
 import { X } from "lucide-react";
 import { useSetAtom } from "jotai";
-import { isBooksPanelDrawerOpenAtom } from "~/common/store";
+import { isCollapsibleSidebarOpenAtom } from "~/common/store";
 
 export const CloseMenuButton = () => {
-  const setIsBooksPanelDrawerOpen = useSetAtom(isBooksPanelDrawerOpenAtom);
+  const setIsCollapsibleSidebarOpen = useSetAtom(isCollapsibleSidebarOpenAtom);
 
   return (
     <Button
@@ -13,7 +13,7 @@ export const CloseMenuButton = () => {
       variant="light"
       className="flex xl:hidden"
       onPress={() => {
-        setIsBooksPanelDrawerOpen(false);
+        setIsCollapsibleSidebarOpen(false);
       }}
     >
       <LuIcon icon={X} />

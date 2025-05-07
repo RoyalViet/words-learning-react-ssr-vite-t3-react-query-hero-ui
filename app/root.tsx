@@ -15,8 +15,8 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import type { Route } from "./+types/root";
 import globalStyle from "~/global.css?url";
 import merriweatherStyle from "@fontsource/merriweather/latin-400?url";
-import { AppLayout } from "./layouts";
 // import { AppLayout } from "~/components/AppLayout";
+import { AppLayout } from "~/layouts";
 
 export const loader = async (args: Route.LoaderArgs) => {
   const [{ myUserInfo }, { allBooks }, { starBooks }] = await Promise.all([
@@ -88,7 +88,7 @@ export default function App({
     <NextThemesProvider attribute="class" defaultTheme="light">
       <HeroUIProvider>
         <QueryClientProvider client={queryClient}>
-          <AppLayout allBooks={allBooks as any} starBooks={starBooks}>
+          <AppLayout allBooks={allBooks} starBooks={starBooks}>
             <Outlet context={{ myUserInfo }} />
           </AppLayout>
           <GlobalComponents />
