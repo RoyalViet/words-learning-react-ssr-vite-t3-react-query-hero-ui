@@ -35,7 +35,7 @@ const Header: React.FC = () => {
   const { isLogin } = useMyUserInfo();
 
   return (
-    <header className="bg-background sticky top-0 z-50">
+    <header className="bg-background sticky top-0 z-10">
       {/* cls: container */}
       <div className="border-divider mx-auto flex items-center justify-between gap-4 border-b p-4">
         <div className="flex items-center gap-4">

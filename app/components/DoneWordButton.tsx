@@ -1,8 +1,9 @@
 import { Button } from "@heroui/react";
-import { Check } from "lucide-react";
-import { LuIcon } from "./LuIcon";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 import { useDoneWordMutation } from "~/hooks/request/mutation/useDoneWordMutation";
+import { Icon } from "@iconify/react";
+import { useGetIsWordDoneQuery } from "~/hooks/request/query/useGetIsWordDoneQuery";
+import { useUnDoneWordMutation } from "~/hooks/request/mutation/useUnDoneWordMutation";
 
 export const DoneWordButton = ({
   wordSlug,
@@ -13,21 +14,32 @@ export const DoneWordButton = ({
 }) => {
   const { isLogin } = useMyUserInfo();
   const doneWordMutation = useDoneWordMutation({ wordSlug });
+  const unDoneWordMutation = useUnDoneWordMutation({ wordSlug });
+  const getIsWordDoneQuery = useGetIsWordDoneQuery({ wordSlug });
+  const isWordDone = !!getIsWordDoneQuery.data?.isWordDone;
 
   return (
     <Button
       variant="light"
       isIconOnly
-      size="sm"
       isDisabled={!isLogin}
       title={!isLogin ? "Please sign in first" : ""}
       isLoading={doneWordMutation.isPending}
       onPress={async () => {
-        await doneWordMutation.mutateAsync();
-        await onPress?.();
+        if (!isWordDone) {
+          await doneWordMutation.mutateAsync();
+          getIsWordDoneQuery.refetch();
+        } else {
+          await unDoneWordMutation.mutateAsync();
+          getIsWordDoneQuery.refetch();
+        }
+        onPress?.();
       }}
     >
-      <LuIcon icon={Check} />
+      <Icon
+        icon={isWordDone ? "lucide:bookmark-check" : "lucide:bookmark"}
+        className={`text-xl ${isWordDone ? "text-primary" : ""}`}
+      />
     </Button>
   );
 };

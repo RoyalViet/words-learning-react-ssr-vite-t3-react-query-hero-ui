@@ -14,6 +14,7 @@ import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 import { DictionaryEntry } from "./DictionaryEntry";
 import { AnimatePresence, motion } from "framer-motion";
 import { DetailWord } from "./DetailWord";
+import { cx } from "~/helper/common";
 
 const pageSize = 20;
 
@@ -149,7 +150,13 @@ export const BookWordsList = () => {
     return (
       <div className="flex flex-col">
         {allWords.map((item) => {
-          return <DictionaryEntry id={String(item.Word.id)} info={item} />;
+          return (
+            <DictionaryEntry
+              key={String(item.Word.id)}
+              id={String(item.Word.id)}
+              info={item}
+            />
+          );
         })}
         {renderEnd()}
       </div>
@@ -181,7 +188,7 @@ export const BookWordsList = () => {
   return (
     <div className="h-[calc(100vh-91px)] overflow-y-scroll" ref={rootRef}>
       <main className="bg-background">
-        <div className="mx-auto flex gap-6 px-4 py-6">
+        <div className="relative mx-auto flex gap-6 p-4">
           <div className="flex-1 transition-all duration-300 ease-in-out">
             <div ref={topRef} />
             {renderContent()}
@@ -193,9 +200,9 @@ export const BookWordsList = () => {
                 animate={{ opacity: 1, width: 300 }}
                 exit={{ opacity: 0, width: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="sm:hidden"
+                className={cx("sm:hidden")}
               >
-                <DetailWord />
+                <DetailWord isWordLoading={wordsQuery.isFetching} />
               </motion.div>
             )}
           </AnimatePresence>

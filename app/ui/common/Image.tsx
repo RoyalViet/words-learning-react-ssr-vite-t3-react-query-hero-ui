@@ -1,3 +1,4 @@
+import { Image as HeroImage } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 import { cx, preLoadImage } from "~/helper/common";
@@ -45,4 +46,4 @@ const Image: React.FC<Props> = ({
 
 export default Image;
 
-export { Image };
+export { Image, HeroImage };

@@ -17,6 +17,8 @@ import globalStyle from "~/global.css?url";
 import merriweatherStyle from "@fontsource/merriweather/latin-400?url";
 // import { AppLayout } from "~/components/AppLayout";
 import { AppLayout } from "~/layouts";
+import { LenisProvider } from "~/components/providers/LenisProvider";
+import "lenis/dist/lenis.css";
 
 export const loader = async (args: Route.LoaderArgs) => {
   const [{ myUserInfo }, { allBooks }, { starBooks }] = await Promise.all([
@@ -61,7 +63,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <Links />
         <title>words-learning</title>
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -88,9 +90,11 @@ export default function App({
     <NextThemesProvider attribute="class" defaultTheme="light">
       <HeroUIProvider>
         <QueryClientProvider client={queryClient}>
+          {/* <LenisProvider> */}
           <AppLayout allBooks={allBooks} starBooks={starBooks}>
             <Outlet context={{ myUserInfo }} />
           </AppLayout>
+          {/* </LenisProvider> */}
           <GlobalComponents />
         </QueryClientProvider>
       </HeroUIProvider>

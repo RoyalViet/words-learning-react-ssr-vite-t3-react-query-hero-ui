@@ -9,6 +9,7 @@ import {
   isWordDetailPanelDrawerOpenAtom,
   wordDetailAtom,
 } from "~/common/store";
+import { DoneWordButton } from "~/components/DoneWordButton";
 
 export interface WordEntry {
   id: string;
@@ -28,7 +29,6 @@ export function DictionaryEntry({ info }: DictionaryEntryProps) {
     isWordDetailPanelDrawerOpenAtom,
   );
   const [wordDetail, setWordDetailAtom] = useAtom(wordDetailAtom);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   return (
     <Card className="mb-4">
@@ -40,18 +40,7 @@ export function DictionaryEntry({ info }: DictionaryEntryProps) {
                 <h2 className="text-xl font-semibold">{word}</h2>
                 <div className="flex gap-2">
                   <WordAudioButton word={word!} />
-                  <Button
-                    isIconOnly
-                    variant="light"
-                    onPress={() => setIsFavorite(!isFavorite)}
-                  >
-                    <Icon
-                      icon={
-                        isFavorite ? "lucide:bookmark-check" : "lucide:bookmark"
-                      }
-                      className={`text-xl ${isFavorite ? "text-primary" : ""}`}
-                    />
-                  </Button>
+                  <DoneWordButton wordSlug={Word?.slug || ""} />
                   <Button
                     isIconOnly
                     variant="light"
@@ -67,29 +56,33 @@ export function DictionaryEntry({ info }: DictionaryEntryProps) {
                   >
                     <Icon icon="lucide:info" className="text-xl" />
                   </Button>
-                  <Button
-                    isIconOnly
-                    variant="light"
-                    onPress={() => setIsExpanded(!isExpanded)}
-                  >
-                    <Icon
-                      icon={
-                        isExpanded ? "lucide:chevron-up" : "lucide:chevron-down"
-                      }
-                      className="text-xl"
-                    />
-                  </Button>
                 </div>
               </div>
-              <div className="flex justify-between gap-1">
-                {type && (
-                  <span className="text-small text-default-500">[{type}]</span>
-                )}
-                {Word?.usPronounce && (
-                  <span className="text-small text-default-400">
-                    {Word?.usPronounce}
-                  </span>
-                )}
+              <div className="flex w-full items-center justify-between gap-1">
+                <div className="flex justify-start gap-1">
+                  {type && (
+                    <span className="text-small text-default-500">
+                      [{type}]
+                    </span>
+                  )}
+                  {Word?.usPronounce && (
+                    <span className="text-small text-default-400">
+                      {Word?.usPronounce}
+                    </span>
+                  )}
+                </div>
+                <Button
+                  isIconOnly
+                  variant="light"
+                  onPress={() => setIsExpanded(!isExpanded)}
+                >
+                  <Icon
+                    icon={
+                      isExpanded ? "lucide:chevron-up" : "lucide:chevron-down"
+                    }
+                    className="text-xl"
+                  />
+                </Button>
               </div>
             </div>
             <AnimatePresence>

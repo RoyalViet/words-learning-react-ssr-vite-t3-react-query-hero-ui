@@ -54,7 +54,10 @@ export const AppLayout = ({
 
       {/* Main Content */}
       <div className="flex h-full flex-1 p-2 sm:p-0">
-        <div className="border-divider h-full flex-1 overflow-auto rounded-lg border sm:border-none">
+        <div
+          className="border-divider h-full flex-1 overflow-auto rounded-lg border sm:border-none"
+          id="content"
+        >
           <Header />
           {children}
         </div>

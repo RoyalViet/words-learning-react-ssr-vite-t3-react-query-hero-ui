@@ -8,15 +8,15 @@ import {
 } from "~/common/store";
 import { IWordItem } from "~/common/types";
 import { WordCommentForm } from "./WordCommentForm";
-import { useState } from "react";
+import { DoneWordButton } from "~/components/DoneWordButton";
+import { WordAudioButton } from "./WordAudioButton";
+import { cx } from "~/helper/common";
 
-export const DetailWord: React.FC = ({}) => {
+export const DetailWord: React.FC<{ isWordLoading?: boolean }> = () => {
   const [wordDetail, setWordDetailAtom] = useAtom(wordDetailAtom);
   const setIsWordDetailPanelDrawerOpen = useSetAtom(
     isWordDetailPanelDrawerOpenAtom,
   );
-
-  const [isFavorite, setIsFavorite] = useState(false);
 
   return (
     <AnimatePresence>
@@ -26,6 +26,7 @@ export const DetailWord: React.FC = ({}) => {
         animate={{ opacity: 1, height: "auto" }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.2 }}
+        className={cx("sticky top-0 z-10")}
       >
         <Card className="mx-auto max-w-md transition-all duration-300 ease-in-out">
           <CardBody className="gap-4">
@@ -33,21 +34,21 @@ export const DetailWord: React.FC = ({}) => {
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">{wordDetail.word}</h2>
               <div className="flex items-center justify-end gap-1">
-                <Button isIconOnly variant="light" size="sm">
-                  <Icon icon="lucide:volume-2" className="text-xl" />
-                </Button>
+                <WordAudioButton word={wordDetail.word || ""} />
+                <DoneWordButton wordSlug={wordDetail.slug || ""} />
+                {/* <WordCommentsList /> */}
                 <Button
                   isIconOnly
-                  variant="light"
                   size="sm"
-                  onPress={() => setIsFavorite(!isFavorite)}
+                  variant="light"
+                  onPress={() => {
+                    //
+                  }}
+                  aria-label="Show comments"
+                  disabled
+                  title="Coming soon"
                 >
-                  <Icon
-                    icon={
-                      isFavorite ? "lucide:bookmark-check" : "lucide:bookmark"
-                    }
-                    className={`text-xl ${isFavorite ? "text-primary" : ""}`}
-                  />
+                  <Icon icon="lucide:message-circle" className="text-lg" />
                 </Button>
                 <Button
                   isIconOnly
