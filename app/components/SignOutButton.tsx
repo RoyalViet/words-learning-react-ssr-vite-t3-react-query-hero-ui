@@ -30,7 +30,7 @@ export const SignOutButton = () => {
       </Button>
       <Modal
         isOpen={isOpen}
-        placement="bottom"
+        placement="center"
         onOpenChange={onOpenChange}
         backdrop="blur"
       >

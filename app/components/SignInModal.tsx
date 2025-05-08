@@ -47,6 +47,7 @@ export const SignInModal = () => {
       backdrop="blur"
       isDismissable={false}
       onClose={form.reset}
+      placement="center"
     >
       <ModalContent>
         {(onClose) => {

@@ -4,34 +4,31 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { IWordItem } from "~/common/types";
 import { WordAudioButton } from "./WordAudioButton";
+import { useAtom, useSetAtom } from "jotai";
+import {
+  isWordDetailPanelDrawerOpenAtom,
+  wordDetailAtom,
+} from "~/common/store";
 
 export interface WordEntry {
   id: string;
-  isFavorite?: boolean;
   info?: IWordItem;
-}
-
-export interface WordList {
-  id: string;
-  title: string;
-  count: number;
-  description?: string;
 }
 
 interface DictionaryEntryProps extends WordEntry {
   // onToggleFavorite: () => void;
 }
 
-export function DictionaryEntry({ isFavorite, info }: DictionaryEntryProps) {
+export function DictionaryEntry({ info }: DictionaryEntryProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const { Word } = info || {};
   const { word, type, translation, remember } = Word || {};
 
-  // const wordDetailSlug = useAtomValue(wordDetailSlugAtom);
-  // const setSearchWord = useSetAtom(searchWordAtom);
-  // const setIsWordDetailPanelDrawerOpen = useSetAtom(
-  //   isWordDetailPanelDrawerOpenAtom,
-  // );
+  const setIsWordDetailPanelDrawerOpen = useSetAtom(
+    isWordDetailPanelDrawerOpenAtom,
+  );
+  const [wordDetail, setWordDetailAtom] = useAtom(wordDetailAtom);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   return (
     <Card className="mb-4">
@@ -42,26 +39,33 @@ export function DictionaryEntry({ isFavorite, info }: DictionaryEntryProps) {
               <div className="flex w-full items-center justify-between gap-1">
                 <h2 className="text-xl font-semibold">{word}</h2>
                 <div className="flex gap-2">
-                  {/* <Button
+                  <WordAudioButton word={word!} />
+                  <Button
                     isIconOnly
                     variant="light"
-                    onPress={() => {
-                      setSearchWord("");
-                      setIsWordDetailPanelDrawerOpen(false);
-                    }}
+                    onPress={() => setIsFavorite(!isFavorite)}
                   >
-                    <Icon icon="lucide:volume-2" className="text-xl" />
-                  </Button> */}
-                  <WordAudioButton word={word!} />
-                  <Button isIconOnly variant="light">
                     <Icon
                       icon={
-                        isFavorite
-                          ? "lucide:bookmark-filled"
-                          : "lucide:bookmark"
+                        isFavorite ? "lucide:bookmark-check" : "lucide:bookmark"
                       }
                       className={`text-xl ${isFavorite ? "text-primary" : ""}`}
                     />
+                  </Button>
+                  <Button
+                    isIconOnly
+                    variant="light"
+                    onPress={() => {
+                      if (Word?.slug === wordDetail?.slug) {
+                        setIsWordDetailPanelDrawerOpen(false);
+                        setWordDetailAtom({} as IWordItem["Word"]);
+                        return;
+                      }
+                      setIsWordDetailPanelDrawerOpen(true);
+                      setWordDetailAtom((Word || {}) as IWordItem["Word"]);
+                    }}
+                  >
+                    <Icon icon="lucide:info" className="text-xl" />
                   </Button>
                   <Button
                     isIconOnly
@@ -78,7 +82,9 @@ export function DictionaryEntry({ isFavorite, info }: DictionaryEntryProps) {
                 </div>
               </div>
               <div className="flex justify-between gap-1">
-                <span className="text-small text-default-500">[{type}]</span>
+                {type && (
+                  <span className="text-small text-default-500">[{type}]</span>
+                )}
                 {Word?.usPronounce && (
                   <span className="text-small text-default-400">
                     {Word?.usPronounce}
@@ -93,18 +99,32 @@ export function DictionaryEntry({ isFavorite, info }: DictionaryEntryProps) {
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-3"
                 >
-                  <Divider className="my-3" />
+                  <Divider className="mt-3" />
                   {translation && (
-                    <p className="text-default-600 mb-3">{translation}</p>
+                    <p className="text-default-600">{translation}</p>
                   )}
-                  {remember && remember.length > 0 && (
+                  {remember && (
                     <div className="space-y-2">
-                      {[...JSON.parse(remember)].map((example, index) => (
-                        <p key={index} className="text-sm">
-                          • {example}
-                        </p>
-                      ))}
+                      {(() => {
+                        try {
+                          const examples = JSON.parse(remember);
+                          return Array.isArray(examples)
+                            ? examples.map((example, index) => (
+                                <p key={index} className="text-sm">
+                                  • {example}
+                                </p>
+                              ))
+                            : null;
+                        } catch (error) {
+                          console.error(
+                            "Failed to parse remember field:",
+                            error,
+                          );
+                          return null;
+                        }
+                      })()}
                     </div>
                   )}
                 </motion.div>

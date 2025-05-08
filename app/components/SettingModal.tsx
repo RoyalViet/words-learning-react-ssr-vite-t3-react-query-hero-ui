@@ -26,6 +26,7 @@ export const SettingModal = () => {
       isOpen={isSettingModalOpen}
       onOpenChange={setIsSettingModalOpen}
       backdrop="blur"
+      placement="center"
     >
       <ModalContent>
         {(onClose) => {

@@ -1,20 +1,22 @@
-import { Button, Input, Tab, Tabs } from "@heroui/react";
-import { useAtom } from "jotai";
+import { Button, Input } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useAtom, useSetAtom } from "jotai";
+import { Moon, Sun } from "lucide-react";
 import React from "react";
 import {
   isBooksPanelDrawerOpenAtom,
   isCollapsibleSidebarOpenAtom,
   isSearchBarOpenAtom,
-  listTabAtom,
+  isSettingModalOpenAtom,
+  isSignInModalOpenAtom,
   searchWordAtom,
 } from "~/common/store";
-import { Icon } from "@iconify/react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useAppTheme } from "~/hooks/useAppTheme";
 import { LuIcon } from "~/components/LuIcon";
-import { Moon, Sun } from "lucide-react";
+import { UserAvatar } from "~/components/UserAvatar";
+import { useAppTheme } from "~/hooks/useAppTheme";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { ListTabType } from "~/common/types";
+import { ListTabs } from "./ListTabs";
 
 const Header: React.FC = () => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useAtom(isSearchBarOpenAtom);
@@ -25,16 +27,12 @@ const Header: React.FC = () => {
   const [isCollapsibleSidebarOpen, setIsCollapsibleSidebarOpen] = useAtom(
     isCollapsibleSidebarOpenAtom,
   );
-  const [listTab, setListTab] = useAtom(listTabAtom);
 
   const { isDarkMode, toggleTheme } = useAppTheme();
-  const { isLogin } = useMyUserInfo();
+  const setIsSignInModalOpen = useSetAtom(isSignInModalOpenAtom);
+  const [__, setIsSettingModalOpen] = useAtom(isSettingModalOpenAtom);
 
-  const tabs = [
-    { key: ListTabType.ALL, label: "All", disabled: false },
-    { key: ListTabType.DONE, label: "Learned", disabled: !isLogin },
-    { key: ListTabType.UNDONE, label: "Not Learned", disabled: !isLogin },
-  ];
+  const { isLogin } = useMyUserInfo();
 
   return (
     <header className="bg-background sticky top-0 z-50">
@@ -84,11 +82,14 @@ const Header: React.FC = () => {
                     <Icon icon="lucide:search" className="text-default-400" />
                   }
                   className="w-full"
+                  autoFocus
                 />
                 <Button
                   isIconOnly
                   variant="light"
-                  onPress={() => setIsSearchBarOpen(false)}
+                  onPress={() => {
+                    setIsSearchBarOpen(false);
+                  }}
                 >
                   <Icon icon="lucide:x" />
                 </Button>
@@ -103,41 +104,34 @@ const Header: React.FC = () => {
               </Button>
             )}
           </AnimatePresence>
-
-          <div className="flex items-center gap-2 sm:hidden">
-            <Button isIconOnly variant="light" onPress={toggleTheme}>
-              <LuIcon icon={isDarkMode ? Moon : Sun} />
-            </Button>
-            <Button color="primary" className="md:flex">
-              Sign In
-            </Button>
-          </div>
+          {isLogin ? (
+            <div className="flex items-center gap-2 sm:hidden">
+              <UserAvatar size={20} />
+              <Button
+                isIconOnly
+                variant="light"
+                onPress={() => setIsSettingModalOpen(true)}
+              >
+                <Icon icon="lucide:settings" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 sm:hidden">
+              <Button isIconOnly variant="light" onPress={toggleTheme}>
+                <LuIcon icon={isDarkMode ? Moon : Sun} />
+              </Button>
+              <Button
+                color="primary"
+                className="md:flex"
+                onPress={() => setIsSignInModalOpen(true)}
+              >
+                Sign In
+              </Button>
+            </div>
+          )}
         </div>
       </div>
-      {isLogin && (
-        <div className="container mx-auto px-4">
-          <Tabs
-            aria-label="tabs"
-            selectedKey={listTab}
-            onSelectionChange={(key) => {
-              setListTab(key as ListTabType);
-            }}
-            variant="underlined"
-            className="mt-2"
-          >
-            {tabs.map(({ key, label, disabled }) => {
-              return (
-                <Tab
-                  key={key}
-                  title={label}
-                  isDisabled={disabled}
-                  titleValue={disabled ? "Please sign in first" : ""}
-                />
-              );
-            })}
-          </Tabs>
-        </div>
-      )}
+      {isLogin && <ListTabs />}
     </header>
   );
 };

@@ -26,10 +26,14 @@ export const AppLayout = ({
 
   return (
     <div className="flex h-dvh">
-      <CollapsibleSidebar allBooks={allBooks} starBooks={starBooks} />
+      {!isMobile && (
+        <CollapsibleSidebar allBooks={allBooks} starBooks={starBooks} />
+      )}
       <Drawer
         isOpen={!isMobile ? false : isBooksPanelDrawerOpen}
-        onOpenChange={setIsBooksPanelDrawerOpen}
+        onClose={() => {
+          setIsBooksPanelDrawerOpen(false);
+        }}
         placement="left"
         size="xs"
         classNames={{
@@ -43,7 +47,7 @@ export const AppLayout = ({
       >
         <DrawerContent>
           <DrawerBody className="p-0">
-            <Sidebar />
+            <Sidebar allBooks={allBooks} starBooks={starBooks} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

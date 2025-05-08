@@ -26,6 +26,7 @@ export const ProfileModal = () => {
       onOpenChange={setIsProfileModalOpen}
       backdrop="blur"
       size="lg"
+      placement="bottom"
     >
       <ModalContent>
         <ModalHeader>{myUserInfo.name}</ModalHeader>

@@ -1,14 +1,18 @@
 import BoringAvatar from "boring-avatars";
+import { useAtom } from "jotai";
 import { useIsClient } from "usehooks-ts";
+import { isProfileModalOpenAtom, isSettingModalOpenAtom } from "~/common/store";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 
 export const UserAvatar = ({
   name,
-  size = 50,
+  size = 30,
 }: {
   name?: string;
   size?: number;
 }) => {
+  const [_, setIsProfileModalOpen] = useAtom(isProfileModalOpenAtom);
+
   const { myUserInfo } = useMyUserInfo();
 
   const isClient = useIsClient();
@@ -20,6 +24,10 @@ export const UserAvatar = ({
         size={size}
         name={name || myUserInfo?.name}
         variant="beam"
+        className="cursor-pointer rounded-full"
+        onClick={() => {
+          setIsProfileModalOpen(true);
+        }}
       />
     );
   }

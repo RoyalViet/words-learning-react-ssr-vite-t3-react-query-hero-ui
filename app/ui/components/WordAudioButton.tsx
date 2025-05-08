@@ -2,10 +2,9 @@ import { Button } from "@heroui/react";
 import { useEffect, useRef, useState } from "react";
 
 import { useAtomValue } from "jotai";
-import { Volume2 } from "lucide-react";
 import { wordDetailSlugAtom } from "~/common/store";
-import { LuIcon } from "~/components/LuIcon";
 import { cx } from "~/helper/common";
+import { Icon } from "@iconify/react";
 
 export const WordAudioButton = ({ word }: { word: string }) => {
   const wordDetailSlug = useAtomValue(wordDetailSlugAtom);
@@ -18,7 +17,7 @@ export const WordAudioButton = ({ word }: { word: string }) => {
 
   return (
     <>
-      <Button
+      {/* <Button
         isIconOnly
         variant="light"
         onPress={() => {
@@ -26,6 +25,18 @@ export const WordAudioButton = ({ word }: { word: string }) => {
         }}
       >
         <LuIcon className={cx(isPlaying && "text-primary")} icon={Volume2} />
+      </Button> */}
+      <Button
+        isIconOnly
+        variant="light"
+        onPress={() => {
+          audioRef.current?.play();
+        }}
+      >
+        <Icon
+          icon={"lucide:volume-2"}
+          className={cx("text-xl", isPlaying && "text-primary")}
+        />
       </Button>
       <audio
         hidden

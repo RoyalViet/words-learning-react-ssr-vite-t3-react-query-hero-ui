@@ -1,26 +1,28 @@
 import { z } from "zod";
 
 // basic fields
-export const email = z.string().email("无效的邮箱格式");
+export const email = z.string().email("Invalid email format");
 
 export const password = z
   .string()
-  .min(8, "密码长度不能少于8位")
-  .max(30, "密码长度不能多于30位");
+  .min(8, "Password must be at least 8 characters")
+  .max(30, "Password cannot exceed 30 characters");
 
 export const keepAlive = z.boolean();
 
-export const verifyCode = z.string().length(6, "验证码为6位数字");
+export const verifyCode = z
+  .string()
+  .length(6, "Verification code must be 6 digits");
 
 export const name = z
   .string()
-  .min(3, "名字长度不能少于3位")
-  .max(16, "名字长度不能多于16位");
+  .min(3, "Name must be at least 3 characters")
+  .max(16, "Name cannot exceed 16 characters");
 
 export const comment = z
   .string()
-  .min(3, "评论长度不能少于3位")
-  .max(1000, "评论长度不能多于1000位");
+  .min(3, "Comment must be at least 3 characters")
+  .max(1000, "Comment cannot exceed 1000 characters");
 
 const updatePasswordFormFields = {
   email,
@@ -36,7 +38,7 @@ export const signInForm = z.object({ email, password, keepAlive });
 export const signUpForm = z
   .object({ ...updatePasswordFormFields, name })
   .refine((data) => data.password === data.password2, {
-    message: "两次密码输入不一致",
+    message: "Passwords do not match",
     path: ["password2"],
   });
 
@@ -44,7 +46,7 @@ export const signUpForm = z
 export const updatePasswordForm = z
   .object(updatePasswordFormFields)
   .refine((data) => data.password === data.password2, {
-    message: "两次密码输入不一致",
+    message: "Passwords do not match",
     path: ["password2"],
   });
 

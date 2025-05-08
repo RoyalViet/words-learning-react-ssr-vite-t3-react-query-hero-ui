@@ -22,14 +22,14 @@ export const updatePassword = p.unAuth
     if (!verify) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "请先发送验证码",
+        message: "Please send verification code first",
       });
     }
 
     if (verify.code !== verifyCode) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "验证码错误",
+        message: "Verification code is incorrect",
       });
     }
 
@@ -38,7 +38,7 @@ export const updatePassword = p.unAuth
     if (diff > 60) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "验证码已过期",
+        message: "Verification code has expired",
       });
     }
 

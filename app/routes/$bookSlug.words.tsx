@@ -1,5 +1,5 @@
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
-import { SearchWordsList } from "~/components/SearchWordsList";
+import { SearchWordsList } from "~/ui/components/SearchWordsList";
 import { BookWordsList } from "~/ui/components/BookWordsList";
 import { SearchBar } from "~/components/SearchBar";
 import { ListTabs } from "~/components/ListTabs";

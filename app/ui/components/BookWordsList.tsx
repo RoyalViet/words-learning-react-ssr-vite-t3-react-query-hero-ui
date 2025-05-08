@@ -1,17 +1,19 @@
-import { Card, CardBody, Divider, Spinner } from "@heroui/react";
-import { useParams } from "react-router";
-import { SearchX } from "lucide-react";
-import { trpcClient } from "~/common/trpc";
-import { LuIcon } from "~/components/LuIcon";
-import useInfiniteScroll from "react-infinite-scroll-hook";
+import { Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+import { SearchX } from "lucide-react";
 import { useEffect, useRef } from "react";
+import useInfiniteScroll from "react-infinite-scroll-hook";
+import { useParams } from "react-router";
+import { isWordDetailPanelDrawerOpenAtom, listTabAtom } from "~/common/store";
+import { trpcClient } from "~/common/trpc";
+import { IPageWordsParams, ListTabType } from "~/common/types";
+import { LuIcon } from "~/components/LuIcon";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { useAtomValue } from "jotai";
-import { IPageWordsParams, ListTabType } from "~/common/types";
-import { listTabAtom } from "~/common/store";
 import { DictionaryEntry } from "./DictionaryEntry";
+import { AnimatePresence, motion } from "framer-motion";
+import { DetailWord } from "./DetailWord";
 
 const pageSize = 20;
 
@@ -20,6 +22,10 @@ export const BookWordsList = () => {
   const { searchWord } = useDebounceSearchWord();
   const { isLogin } = useMyUserInfo();
   const listTab = useAtomValue(listTabAtom);
+
+  const isWordDetailPanelDrawerOpen = useAtomValue(
+    isWordDetailPanelDrawerOpenAtom,
+  );
 
   const getWordsOfBookQuery = useInfiniteQuery({
     queryKey: ["getWordsOfBook", bookSlug],
@@ -176,11 +182,23 @@ export const BookWordsList = () => {
     <div className="h-[calc(100vh-91px)] overflow-y-scroll" ref={rootRef}>
       <main className="bg-background">
         <div className="mx-auto flex gap-6 px-4 py-6">
-          {/* Card */}
           <div className="flex-1 transition-all duration-300 ease-in-out">
             <div ref={topRef} />
             {renderContent()}
           </div>
+          <AnimatePresence mode="wait">
+            {isWordDetailPanelDrawerOpen && (
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ opacity: 1, width: 300 }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="sm:hidden"
+              >
+                <DetailWord />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </main>
     </div>

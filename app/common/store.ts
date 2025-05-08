@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { ListTabType } from "./types";
+import { IWordItem, ListTabType } from "./types";
 
 export const isCollapsibleSidebarOpenAtom = atom(false);
 export const isBooksPanelDrawerOpenAtom = atom(false);
@@ -13,3 +13,4 @@ export const isSignInModalOpenAtom = atom(false);
 export const isSignUpModalOpenAtom = atom(false);
 export const isUpdatePasswordModalOpenAtom = atom(false);
 export const wordDetailSlugAtom = atom("");
+export const wordDetailAtom = atom({} as IWordItem["Word"]);

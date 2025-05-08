@@ -6,6 +6,7 @@ import { UpdatePasswordModal } from "./UpdatePasswordModal";
 import { SettingModal } from "./SettingModal";
 import { ProfileModal } from "./ProfileModal";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { DetailWordModal } from "~/ui/components/DetailWordModal";
 
 export const GlobalComponents = () => {
   return (
@@ -18,6 +19,7 @@ export const GlobalComponents = () => {
       <UpdatePasswordModal />
       <SettingModal />
       <ProfileModal />
+      <DetailWordModal />
     </>
   );
 };

@@ -36,7 +36,7 @@ export const signUp = p.unAuth
     if (userByEmail) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "邮箱已被使用",
+        message: "Email already in use",
       });
     }
 
@@ -45,7 +45,7 @@ export const signUp = p.unAuth
     if (userByName) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "昵称已被使用",
+        message: "Username already in use",
       });
     }
 
@@ -54,14 +54,14 @@ export const signUp = p.unAuth
     if (!verify) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "请先发送验证码",
+        message: "Please send verification code first",
       });
     }
 
     if (verify.code !== verifyCode) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "验证码错误",
+        message: "Incorrect verification code",
       });
     }
 
@@ -70,7 +70,7 @@ export const signUp = p.unAuth
     if (diff > 60) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "验证码已过期",
+        message: "Verification code has expired",
       });
     }
 
