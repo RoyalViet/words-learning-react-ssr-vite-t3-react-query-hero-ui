@@ -16,15 +16,13 @@ export const ListTabs = () => {
   ];
 
   return (
-    <div className="mx-auto px-4">
+    <div className="bg-background">
       <Tabs
         aria-label="tabs"
         selectedKey={listTab}
         onSelectionChange={(key) => {
           setListTab(key as ListTabType);
         }}
-        variant="underlined"
-        className="mt-2"
       >
         {tabs.map(({ key, label, disabled }) => {
           return (

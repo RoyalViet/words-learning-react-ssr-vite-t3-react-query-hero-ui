@@ -17,26 +17,26 @@ import { UserAvatar } from "~/components/UserAvatar";
 import { useAppTheme } from "~/hooks/useAppTheme";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 import { ListTabs } from "./ListTabs";
+import { useMobile } from "~/hooks/useMobile";
 
 const Header: React.FC = () => {
+  const { isDarkMode, toggleTheme } = useAppTheme();
+  const { isMobile } = useMobile();
+
   const [isSearchBarOpen, setIsSearchBarOpen] = useAtom(isSearchBarOpenAtom);
   const [searchWord, setSearchWord] = useAtom(searchWordAtom);
 
-  const [_, setIsBooksPanelDrawerOpen] = useAtom(isBooksPanelDrawerOpenAtom);
-
+  const setIsBooksPanelDrawerOpen = useSetAtom(isBooksPanelDrawerOpenAtom);
+  const setIsSignInModalOpen = useSetAtom(isSignInModalOpenAtom);
+  const setIsSettingModalOpen = useSetAtom(isSettingModalOpenAtom);
   const [isCollapsibleSidebarOpen, setIsCollapsibleSidebarOpen] = useAtom(
     isCollapsibleSidebarOpenAtom,
   );
-
-  const { isDarkMode, toggleTheme } = useAppTheme();
-  const setIsSignInModalOpen = useSetAtom(isSignInModalOpenAtom);
-  const [__, setIsSettingModalOpen] = useAtom(isSettingModalOpenAtom);
 
   const { isLogin } = useMyUserInfo();
 
   return (
     <header className="bg-background sticky top-0 z-10">
-      {/* cls: container */}
       <div className="border-divider mx-auto flex items-center justify-between gap-4 border-b p-4">
         <div className="flex items-center gap-4">
           <Button
@@ -64,6 +64,7 @@ const Header: React.FC = () => {
               className="text-xl"
             />
           </Button>
+          {isLogin && !isMobile && <ListTabs />}
         </div>
         <div className="flex flex-1 items-center justify-end gap-2">
           <AnimatePresence>
@@ -88,6 +89,7 @@ const Header: React.FC = () => {
                   isIconOnly
                   variant="light"
                   onPress={() => {
+                    setSearchWord("");
                     setIsSearchBarOpen(false);
                   }}
                 >
@@ -131,7 +133,6 @@ const Header: React.FC = () => {
           )}
         </div>
       </div>
-      {isLogin && <ListTabs />}
     </header>
   );
 };

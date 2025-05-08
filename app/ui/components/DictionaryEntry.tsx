@@ -10,6 +10,7 @@ import {
   wordDetailAtom,
 } from "~/common/store";
 import { DoneWordButton } from "~/components/DoneWordButton";
+import { cx } from "~/helper/common";
 
 export interface WordEntry {
   id: string;
@@ -31,7 +32,7 @@ export function DictionaryEntry({ info }: DictionaryEntryProps) {
   const [wordDetail, setWordDetailAtom] = useAtom(wordDetailAtom);
 
   return (
-    <Card className="mb-4">
+    <Card className={cx(wordDetail.slug === Word?.slug && "bg-primary-100")}>
       <CardBody>
         <div className="flex items-start justify-between gap-1 sm:flex-col-reverse sm:justify-start">
           <div className="w-full">

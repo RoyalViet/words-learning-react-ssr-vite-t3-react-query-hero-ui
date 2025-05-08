@@ -17,15 +17,6 @@ export const WordAudioButton = ({ word }: { word: string }) => {
 
   return (
     <>
-      {/* <Button
-        isIconOnly
-        variant="light"
-        onPress={() => {
-          audioRef.current?.play();
-        }}
-      >
-        <LuIcon className={cx(isPlaying && "text-primary")} icon={Volume2} />
-      </Button> */}
       <Button
         isIconOnly
         variant="light"

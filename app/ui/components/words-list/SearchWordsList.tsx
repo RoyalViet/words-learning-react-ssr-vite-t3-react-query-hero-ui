@@ -1,20 +1,24 @@
-import { Spinner } from "@heroui/react";
-import { SearchX } from "lucide-react";
-import { trpcClient } from "~/common/trpc";
-import { LuIcon } from "~/components/LuIcon";
-import useInfiniteScroll from "react-infinite-scroll-hook";
+import { Divider, Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { SearchX } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useParams } from "react-router";
+import { trpcClient } from "~/common/trpc";
 import { IPageWordsParams } from "~/common/types";
-import { DictionaryEntry } from "./DictionaryEntry";
+import { LuIcon } from "~/components/LuIcon";
+import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
+import { useMobile } from "~/hooks/useMobile";
+import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+import { DetailWord } from "../DetailWord";
+import { DictionaryEntry } from "../DictionaryEntry";
+import { ListTabs } from "../ListTabs";
 
 export const SearchWordsList = () => {
   const { bookSlug = "" } = useParams<IPageWordsParams>();
-
+  const { isLogin } = useMyUserInfo();
+  const { isMobile } = useMobile();
   const { searchWord } = useDebounceSearchWord();
-
   const getWordsOfKeywordQuery = useInfiniteQuery({
     queryKey: ["getWordsOfKeyword", bookSlug, searchWord],
     queryFn: async ({ pageParam }) => {
@@ -37,7 +41,6 @@ export const SearchWordsList = () => {
     },
     enabled: !!searchWord,
   });
-
   const [sentryRef, { rootRef }] = useInfiniteScroll({
     loading: getWordsOfKeywordQuery.isFetching,
     hasNextPage: getWordsOfKeywordQuery.hasNextPage,
@@ -45,17 +48,13 @@ export const SearchWordsList = () => {
     disabled: !!getWordsOfKeywordQuery.error,
     rootMargin: "0px 0px 200px 0px",
   });
-
   const showWordsList = getWordsOfKeywordQuery.data || [];
   const allWords = showWordsList.flat(2);
   const totalCount = allWords.length;
-
   const topRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     topRef.current?.scrollIntoView({ block: "end" });
   }, [bookSlug, topRef]);
-
   const renderContent = () => {
     if (allWords.length === 0) {
       if (getWordsOfKeywordQuery.isFetching) {
@@ -78,15 +77,20 @@ export const SearchWordsList = () => {
     }
 
     return (
-      <div className="flex w-full flex-col">
+      <div className="flex flex-col gap-4 sm:p-4 sm:!pt-0">
         {allWords.map((item) => {
-          return <DictionaryEntry id={String(item.Word.id)} info={item} />;
+          return (
+            <DictionaryEntry
+              key={String(item.Word.id)}
+              id={String(item.Word.id)}
+              info={item}
+            />
+          );
         })}
         {renderEnd()}
       </div>
     );
   };
-
   const renderEnd = () => {
     if (getWordsOfKeywordQuery.isFetchingNextPage) {
       return (
@@ -108,17 +112,22 @@ export const SearchWordsList = () => {
       </div>
     );
   };
-
   return (
     <div className="h-[calc(100vh-91px)] overflow-y-scroll" ref={rootRef}>
-      <main className="bg-background">
-        <div className="mx-auto flex gap-6 px-4 py-6">
-          {/* Card */}
-          <div className="flex-1 transition-all duration-300 ease-in-out">
-            <div ref={topRef} />
-            {renderContent()}
-          </div>
+      <div ref={topRef} />
+      <main className="bg-background mx-auto flex gap-4 p-6 sm:p-0">
+        <div className="flex flex-1 flex-col gap-4 transition-all duration-300 ease-in-out">
+          {isLogin && isMobile && (
+            <div className="bg-background sticky top-0 z-10">
+              <div className="w-full px-4 pt-4">
+                <ListTabs />
+              </div>
+              <Divider className="my-2" />
+            </div>
+          )}
+          {renderContent()}
         </div>
+        <DetailWord />
       </main>
     </div>
   );

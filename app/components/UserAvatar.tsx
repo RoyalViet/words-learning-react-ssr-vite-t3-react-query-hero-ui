@@ -1,12 +1,12 @@
 import BoringAvatar from "boring-avatars";
 import { useAtom } from "jotai";
 import { useIsClient } from "usehooks-ts";
-import { isProfileModalOpenAtom, isSettingModalOpenAtom } from "~/common/store";
+import { isProfileModalOpenAtom } from "~/common/store";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 
 export const UserAvatar = ({
   name,
-  size = 30,
+  size = 20,
 }: {
   name?: string;
   size?: number;
@@ -32,5 +32,5 @@ export const UserAvatar = ({
     );
   }
 
-  return <div className="bg-foreground-300 h-[50px] w-[50px]" />;
+  return <div className="bg-foreground-300 size-5" />;
 };

@@ -1,32 +1,51 @@
-import { Spinner } from "@heroui/react";
+import { Divider, Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { SearchX } from "lucide-react";
 import { useEffect, useRef } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useParams } from "react-router";
-import { isWordDetailPanelDrawerOpenAtom, listTabAtom } from "~/common/store";
+import { listTabAtom } from "~/common/store";
 import { trpcClient } from "~/common/trpc";
 import { IPageWordsParams, ListTabType } from "~/common/types";
 import { LuIcon } from "~/components/LuIcon";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
+import { useMobile } from "~/hooks/useMobile";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { DictionaryEntry } from "./DictionaryEntry";
-import { AnimatePresence, motion } from "framer-motion";
-import { DetailWord } from "./DetailWord";
-import { cx } from "~/helper/common";
+import { DictionaryEntry } from "../DictionaryEntry";
+import { DetailWord } from "../DetailWord";
+import { ListTabs } from "../ListTabs";
 
 const pageSize = 20;
 
-export const BookWordsList = () => {
+export const WordsSection = () => {
   const { bookSlug = "" } = useParams<IPageWordsParams>();
   const { searchWord } = useDebounceSearchWord();
   const { isLogin } = useMyUserInfo();
   const listTab = useAtomValue(listTabAtom);
+  const { isMobile } = useMobile();
 
-  const isWordDetailPanelDrawerOpen = useAtomValue(
-    isWordDetailPanelDrawerOpenAtom,
-  );
+  const getWordsOfKeywordQuery = useInfiniteQuery({
+    queryKey: ["getWordsOfKeyword", bookSlug, searchWord],
+    queryFn: async ({ pageParam }) => {
+      return trpcClient.loader.getWordsOfKeyword.query({
+        keyword: searchWord,
+        offset: pageSize * pageParam,
+        limit: pageSize,
+      });
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, _, lastPageParam) => {
+      if (lastPage.wordsOfKeyword.length === 0) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    select(data) {
+      return data.pages.map((e) => e.wordsOfKeyword);
+    },
+    enabled: !!searchWord,
+  });
 
   const getWordsOfBookQuery = useInfiniteQuery({
     queryKey: ["getWordsOfBook", bookSlug],
@@ -102,11 +121,16 @@ export const BookWordsList = () => {
     [ListTabType.UNDONE]: getUnDoneWordsOfBook,
   };
 
-  const wordsQuery = wordsQueryMap[listTab];
+  const wordsQuery = searchWord
+    ? getWordsOfKeywordQuery
+    : wordsQueryMap[listTab];
 
+  // Sửa useEffect để tránh vòng lặp vô hạn
   useEffect(() => {
-    wordsQuery.refetch();
-  }, [listTab]);
+    if (!searchWord && wordsQuery.isStale) {
+      wordsQuery.refetch();
+    }
+  }, [listTab, searchWord]); // Loại bỏ wordsQuery khỏi dependencies
 
   const [sentryRef, { rootRef }] = useInfiniteScroll({
     loading: wordsQuery.isFetching,
@@ -124,7 +148,7 @@ export const BookWordsList = () => {
 
   useEffect(() => {
     topRef.current?.scrollIntoView({ block: "end" });
-  }, [bookSlug, topRef]);
+  }, [bookSlug]);
 
   const renderContent = () => {
     if (allWords.length === 0) {
@@ -148,16 +172,14 @@ export const BookWordsList = () => {
     }
 
     return (
-      <div className="flex flex-col">
-        {allWords.map((item) => {
-          return (
-            <DictionaryEntry
-              key={String(item.Word.id)}
-              id={String(item.Word.id)}
-              info={item}
-            />
-          );
-        })}
+      <div className="flex flex-col gap-4 sm:p-4 sm:!pt-0">
+        {allWords.map((item) => (
+          <DictionaryEntry
+            key={String(item.Word.id)}
+            id={String(item.Word.id)}
+            info={item}
+          />
+        ))}
         {renderEnd()}
       </div>
     );
@@ -187,26 +209,20 @@ export const BookWordsList = () => {
 
   return (
     <div className="h-[calc(100vh-91px)] overflow-y-scroll" ref={rootRef}>
-      <main className="bg-background">
-        <div className="relative mx-auto flex gap-6 p-4">
-          <div className="flex-1 transition-all duration-300 ease-in-out">
-            <div ref={topRef} />
-            {renderContent()}
-          </div>
-          <AnimatePresence mode="wait">
-            {isWordDetailPanelDrawerOpen && (
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ opacity: 1, width: 300 }}
-                exit={{ opacity: 0, width: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={cx("sm:hidden")}
-              >
-                <DetailWord isWordLoading={wordsQuery.isFetching} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+      <div ref={topRef} />
+      <main className="bg-background mx-auto flex gap-4 p-6 sm:p-0">
+        <div className="flex flex-1 flex-col gap-4 transition-all duration-300 ease-in-out">
+          {isLogin && isMobile && !searchWord && (
+            <div className="bg-background sticky top-0 z-10">
+              <div className="w-full px-4 pt-4">
+                <ListTabs />
+              </div>
+              <Divider className="my-2" />
+            </div>
+          )}
+          {renderContent()}
         </div>
+        <DetailWord />
       </main>
     </div>
   );
