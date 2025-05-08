@@ -1,17 +1,18 @@
 import { Divider, Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { SearchX } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useParams } from "react-router";
-import { listTabAtom } from "~/common/store";
+import { listTabAtom, wordsDoneStatusAtom } from "~/common/store";
 import { trpcClient } from "~/common/trpc";
 import { IPageWordsParams, ListTabType } from "~/common/types";
 import { LuIcon } from "~/components/LuIcon";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { useMobile } from "~/hooks/useMobile";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+import { useGetMultipleWordsStatusQuery } from "~/hooks/request/query/useGetMultipleWordsStatusQuery";
 import { DictionaryEntry } from "../DictionaryEntry";
 import { DetailWord } from "../DetailWord";
 import { ListTabs } from "../ListTabs";
@@ -125,12 +126,15 @@ export const WordsSection = () => {
     ? getWordsOfKeywordQuery
     : wordsQueryMap[listTab];
 
-  // Sửa useEffect để tránh vòng lặp vô hạn
+  // Preserve the word slugs we've already checked regardless of which tab is selected
+  const [allCheckedWordSlugs] = useState<Set<string>>(new Set());
+
+  // Modified useEffect to avoid infinite refetch loops
   useEffect(() => {
     if (!searchWord && wordsQuery.isStale) {
       wordsQuery.refetch();
     }
-  }, [listTab, searchWord]); // Loại bỏ wordsQuery khỏi dependencies
+  }, [listTab, searchWord]); // Removed wordsQuery from dependencies
 
   const [sentryRef, { rootRef }] = useInfiniteScroll({
     loading: wordsQuery.isFetching,
@@ -149,6 +153,52 @@ export const WordsSection = () => {
   useEffect(() => {
     topRef.current?.scrollIntoView({ block: "end" });
   }, [bookSlug]);
+
+  // Extract word slugs from loaded words
+  const wordsDoneStatus = useAtomValue(wordsDoneStatusAtom);
+
+  // Get only new words that haven't been checked yet and don't exist in the atom
+  // This is tab-agnostic - we track all slugs regardless of which tab is showing them
+  const newWordSlugs = useMemo(() => {
+    return allWords
+      .map((item) => item.Word.slug)
+      .filter((slug) => {
+        // If this word isn't in the atom and we haven't checked it yet, add it to the list
+        if (
+          wordsDoneStatus[slug] === undefined &&
+          !allCheckedWordSlugs.has(slug)
+        ) {
+          return true;
+        }
+        return false;
+      });
+  }, [allWords, allCheckedWordSlugs, wordsDoneStatus]);
+
+  const setWordsDoneStatus = useSetAtom(wordsDoneStatusAtom);
+
+  // Use the bulk query hook to fetch status of only NEW visible words
+  const { data: wordsStatusData } = useGetMultipleWordsStatusQuery({
+    wordSlugs: newWordSlugs,
+    enabled:
+      isLogin && newWordSlugs.length > 0 && listTab !== ListTabType.UNDONE,
+  });
+
+  // Update the global atom with the fetched statuses
+  useEffect(() => {
+    if (wordsStatusData?.doneWords && isLogin && newWordSlugs.length > 0) {
+      // Merge new word statuses with existing ones
+      setWordsDoneStatus((prev) => ({ ...prev, ...wordsStatusData.doneWords }));
+
+      // Update the master list of all checked word slugs
+      newWordSlugs.forEach((slug) => allCheckedWordSlugs.add(slug));
+    }
+  }, [
+    wordsStatusData,
+    setWordsDoneStatus,
+    isLogin,
+    newWordSlugs,
+    allCheckedWordSlugs,
+  ]);
 
   const renderContent = () => {
     if (allWords.length === 0) {

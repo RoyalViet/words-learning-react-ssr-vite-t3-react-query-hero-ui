@@ -14,3 +14,4 @@ export const isSignUpModalOpenAtom = atom(false);
 export const isUpdatePasswordModalOpenAtom = atom(false);
 export const wordDetailSlugAtom = atom("");
 export const wordDetailAtom = atom({} as IWordItem["Word"]);
+export const wordsDoneStatusAtom = atom<Record<string, boolean>>({});

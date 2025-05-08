@@ -20,6 +20,7 @@ import { getStudyCalendar } from "./loader/getStudyCalendar";
 import { getWordComments } from "./loader/getWordComments";
 import { getPostVote } from "./loader/getPostVote";
 import { getIsPostVote } from "./loader/getIsPostVote";
+import { getMultipleWordsStatus } from "./loader/getMultipleWordsStatus";
 
 // actions
 import { doneWord } from "./action/doneWord";
@@ -56,6 +57,7 @@ export const appRouter = t.router({
     getWordComments,
     getPostVote,
     getIsPostVote,
+    getMultipleWordsStatus,
   }),
   action: t.router({
     doneWord,
