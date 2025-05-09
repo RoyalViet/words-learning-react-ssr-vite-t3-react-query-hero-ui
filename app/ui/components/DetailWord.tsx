@@ -122,9 +122,9 @@ export const DetailContent: React.FC = () => {
 
           {/* <Divider /> */}
 
-          {/* Example Section */}
+          {/* Remember Section */}
           <div>
-            <h3 className="mb-2 text-sm font-medium">Example</h3>
+            <h3 className="mb-2 text-sm font-medium">Remember</h3>
             {wordDetail?.remember && wordDetail?.remember.length > 0 && (
               <div className="space-y-2">
                 {(() => {
