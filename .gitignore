@@ -1,7 +1,6 @@
 !.env.example
 .DS_Store
 .react-router
-build
 node_modules
 *.tsbuildinfo
 .local
@@ -9,3 +8,4 @@ drizzle
 
 # Uncomment .env when deploy to production
 .env
+# build
