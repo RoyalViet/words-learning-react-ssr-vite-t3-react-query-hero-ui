@@ -51,6 +51,7 @@ export default defineConfig([
       "simple-import-sort": simpleImportSort,
     },
     rules: {
+      "no-console": ["warn", { allow: ["warn", "error", "debug", "info"] }],
       "react/display-name": "off",
       "@typescript-eslint/no-unsafe-function-types": "off",
       "@typescript-eslint/no-explicit-any": "warn",

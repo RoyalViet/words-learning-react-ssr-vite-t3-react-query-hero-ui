@@ -198,6 +198,4 @@
 //   );
 // };
 
-export const BookWordsList = () => {
-  return <div />;
-};
+export const BookWordsList = null;
