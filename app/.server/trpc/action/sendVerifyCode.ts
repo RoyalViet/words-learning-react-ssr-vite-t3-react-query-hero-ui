@@ -1,12 +1,13 @@
-import { p } from "~/.server/trpc";
-import { z } from "zod";
-import { email } from "~/common/formSchema";
 import { Chance } from "chance";
+import { eq, sql } from "drizzle-orm";
+import { z } from "zod";
+
 import { db } from "~/.server/db";
 import { Verify } from "~/.server/db/schema";
-import { eq, sql } from "drizzle-orm";
 import { sendVerifyCodeToEmail } from "~/.server/mail";
+import { p } from "~/.server/trpc";
 import { IS_PROD } from "~/common/constants";
+import { email } from "~/common/formSchema";
 
 const prepare = db
   .select()

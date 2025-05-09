@@ -1,15 +1,17 @@
-import { DoneWordButton } from "./DoneWordButton";
-import { UnDoneWordButton } from "./UnDoneWordButton";
-import { useSetAtom } from "jotai";
-import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 import { Button } from "@heroui/react";
-import { useGetIsWordDoneQuery } from "~/hooks/request/query/useGetIsWordDoneQuery";
-import { IWordItem } from "~/common/types";
+import { useSetAtom } from "jotai";
+
 import {
   isWordDetailPanelDrawerOpenAtom,
   wordDetailSlugAtom,
 } from "~/common/store";
+import { IWordItem } from "~/common/types";
+import { useGetIsWordDoneQuery } from "~/hooks/request/query/useGetIsWordDoneQuery";
 import { useMobile } from "~/hooks/useMobile";
+import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+
+import { DoneWordButton } from "./DoneWordButton";
+import { UnDoneWordButton } from "./UnDoneWordButton";
 
 export const WordListIem = ({ item }: { item: IWordItem }) => {
   const setWordDetailSlug = useSetAtom(wordDetailSlugAtom);
@@ -70,7 +72,7 @@ export const WordListIem = ({ item }: { item: IWordItem }) => {
       className="border-foreground-100 hover:bg-primary-50 box-border flex h-20 cursor-pointer items-center justify-between border-b px-6"
       onClick={() => {
         setWordDetailSlug(wordSlug);
-        isMobile && setIsWordDetailPanelDrawerOpen(true);
+        if (isMobile) setIsWordDetailPanelDrawerOpen(true);
       }}
     >
       <div className="flex flex-col justify-center gap-1">

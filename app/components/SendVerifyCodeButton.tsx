@@ -1,12 +1,14 @@
-import { Link } from "@heroui/react";
 import { UseFormReturn } from "react-hook-form";
 import toast from "react-hot-toast";
+import { Link } from "@heroui/react";
 import { useCountdown } from "usehooks-ts";
+
 import { useSendVerifyCodeMutation } from "~/hooks/request/mutation/useSendVerifyCodeMutation";
 
 export const SendVerifyCodeButton = ({
   form,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: UseFormReturn<any>;
 }) => {
   const email = form.watch("email");

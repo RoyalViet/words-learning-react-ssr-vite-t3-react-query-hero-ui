@@ -1,5 +1,5 @@
-import { Image as HeroImage } from "@heroui/react";
 import { useEffect, useState } from "react";
+import { Image as HeroImage } from "@heroui/react";
 
 import { cx, preLoadImage } from "~/helper/common";
 

@@ -1,15 +1,17 @@
-import { Button } from "@heroui/react";
-import { IBookItem } from "~/common/types";
-import { cx } from "~/helper/common";
-import Image from "../common/Image";
 import { href, Link, useParams } from "react-router";
+import { Button } from "@heroui/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
+
 import {
   isCollapsibleSidebarOpenAtom,
   searchWordAtom,
   wordDetailSlugAtom,
 } from "~/common/store";
-import { AnimatePresence, motion } from "framer-motion";
+import { IBookItem } from "~/common/types";
+import { cx } from "~/helper/common";
+
+import Image from "../common/Image";
 
 export const BooksPanel = ({
   allBooks,

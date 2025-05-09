@@ -1,11 +1,12 @@
 import { TRPCError } from "@trpc/server";
+import dayjs from "dayjs";
+import { eq, sql } from "drizzle-orm";
+
+import { encrypt } from "~/.server/crypto";
 import { db } from "~/.server/db";
 import { User, Verify } from "~/.server/db/schema";
 import { p } from "~/.server/trpc";
 import { signUpForm } from "~/common/formSchema";
-import dayjs from "dayjs";
-import { encrypt } from "~/.server/crypto";
-import { eq, sql } from "drizzle-orm";
 
 const prepareGetUserByEmail = db
   .select()

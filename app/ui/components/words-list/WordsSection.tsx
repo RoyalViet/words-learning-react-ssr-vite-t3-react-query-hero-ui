@@ -1,29 +1,32 @@
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import useInfiniteScroll from "react-infinite-scroll-hook";
+import { useParams } from "react-router";
 import { Divider, Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { SearchX } from "lucide-react";
-import { useEffect, useRef, useMemo, useState } from "react";
-import useInfiniteScroll from "react-infinite-scroll-hook";
-import { useParams } from "react-router";
+
 import { listTabAtom, wordsDoneStatusAtom } from "~/common/store";
 import { trpcClient } from "~/common/trpc";
 import { IPageWordsParams, ListTabType } from "~/common/types";
 import { LuIcon } from "~/components/LuIcon";
+import { useGetMultipleWordsStatusQuery } from "~/hooks/request/query/useGetMultipleWordsStatusQuery";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { useMobile } from "~/hooks/useMobile";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { useGetMultipleWordsStatusQuery } from "~/hooks/request/query/useGetMultipleWordsStatusQuery";
-import { DictionaryEntry } from "../DictionaryEntry";
+
 import { DetailWord } from "../DetailWord";
+import { DictionaryEntry } from "../DictionaryEntry";
 import { ListTabs } from "../ListTabs";
 
 const pageSize = 20;
 
-export const WordsSection = () => {
+export const WordsSection: React.FC = () => {
   const { bookSlug = "" } = useParams<IPageWordsParams>();
   const { searchWord } = useDebounceSearchWord();
   const { isLogin } = useMyUserInfo();
   const listTab = useAtomValue(listTabAtom);
+
   const { isMobile } = useMobile();
 
   const getWordsOfKeywordQuery = useInfiniteQuery({
@@ -134,6 +137,7 @@ export const WordsSection = () => {
     if (!searchWord && wordsQuery.isStale) {
       wordsQuery.refetch();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listTab, searchWord]); // Removed wordsQuery from dependencies
 
   const [sentryRef, { rootRef }] = useInfiniteScroll({

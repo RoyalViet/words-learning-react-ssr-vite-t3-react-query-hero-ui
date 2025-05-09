@@ -1,9 +1,10 @@
+import React from "react";
 import { Button, Input } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
 import { Moon, Sun } from "lucide-react";
-import React from "react";
+
 import {
   isBooksPanelDrawerOpenAtom,
   isCollapsibleSidebarOpenAtom,
@@ -15,9 +16,10 @@ import {
 import { LuIcon } from "~/components/LuIcon";
 import { UserAvatar } from "~/components/UserAvatar";
 import { useAppTheme } from "~/hooks/useAppTheme";
-import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { ListTabs } from "./ListTabs";
 import { useMobile } from "~/hooks/useMobile";
+import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+
+import { ListTabs } from "./ListTabs";
 
 const Header: React.FC = () => {
   const { isDarkMode, toggleTheme } = useAppTheme();

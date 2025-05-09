@@ -1,4 +1,5 @@
 import { useSetAtom } from "jotai";
+
 import {
   isSearchBarOpenAtom,
   isWordDetailPanelDrawerOpenAtom,

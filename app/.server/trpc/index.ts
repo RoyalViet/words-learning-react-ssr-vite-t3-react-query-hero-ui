@@ -1,6 +1,7 @@
-import { TRPCError, initTRPC } from "@trpc/server";
+import { initTRPC,TRPCError } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import SuperJSON from "superjson";
+
 import { getMyUserInfo } from "../auth";
 
 export const createTRPCContext = async (ctx: FetchCreateContextFnOptions) => {
@@ -28,7 +29,7 @@ const isAuthed = t.middleware(({ ctx: { myUserInfo }, next }) => {
 });
 
 const isUnAuthed = t.middleware(({ ctx: { myUserInfo }, next }) => {
-  if (!!myUserInfo) {
+  if (myUserInfo) {
     throw new TRPCError({
       code: "FORBIDDEN",
       message: "You are already logged in",

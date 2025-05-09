@@ -1,17 +1,18 @@
-import { Spinner } from "@heroui/react";
-import { useParams } from "react-router";
-import { SearchX } from "lucide-react";
-import { trpcClient } from "~/common/trpc";
-import { LuIcon } from "~/components/LuIcon";
-import useInfiniteScroll from "react-infinite-scroll-hook";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { WordListIem } from "~/components/WordListIem";
 import { useEffect, useRef } from "react";
+import useInfiniteScroll from "react-infinite-scroll-hook";
+import { useParams } from "react-router";
+import { Spinner } from "@heroui/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+import { SearchX } from "lucide-react";
+
+import { listTabAtom } from "~/common/store";
+import { trpcClient } from "~/common/trpc";
+import { IPageWordsParams, ListTabType } from "~/common/types";
+import { LuIcon } from "~/components/LuIcon";
+import { WordListIem } from "~/components/WordListIem";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { useAtomValue } from "jotai";
-import { IPageWordsParams, ListTabType } from "~/common/types";
-import { listTabAtom } from "~/common/store";
 
 const pageSize = 20;
 
@@ -99,6 +100,7 @@ export const BookWordsList = () => {
 
   useEffect(() => {
     wordsQuery.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listTab]);
 
   const [sentryRef, { rootRef }] = useInfiniteScroll({

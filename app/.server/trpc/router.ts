@@ -1,40 +1,39 @@
 import { t } from "../trpc";
 
-// loaders
-import { getAllBooks } from "./loader/getAllBooks";
-import { getMyUserInfo } from "./loader/getMyUserInfo";
-import { getBookDetail } from "./loader/getBookDetail";
-import { getWordDetail } from "./loader/getWordDetail";
-import { getWordsOfBook } from "./loader/getWordsOfBook";
-import { getWordsOfKeyword } from "./loader/getWordsOfKeyword";
-import { getWordCognates } from "./loader/getWordCognates";
-import { getWordPhrases } from "./loader/getWordPhrases";
-import { getWordSentences } from "./loader/getWordSentences";
-import { getWordSynonyms } from "./loader/getWordSynonyms";
-import { getWordTranslations } from "./loader/getWordTranslations";
-import { getIsWordDone } from "./loader/getIsWordDone";
-import { getStarBooks } from "./loader/getStarBooks";
-import { getDoneWordsOfBook } from "./loader/getDoneWordsOfBook";
-import { getUnDoneWordsOfBook } from "./loader/getUnDoneWordsOfBook";
-import { getStudyCalendar } from "./loader/getStudyCalendar";
-import { getWordComments } from "./loader/getWordComments";
-import { getPostVote } from "./loader/getPostVote";
-import { getIsPostVote } from "./loader/getIsPostVote";
-import { getMultipleWordsStatus } from "./loader/getMultipleWordsStatus";
-
 // actions
 import { doneWord } from "./action/doneWord";
-import { unDoneWord } from "./action/unDoneWord";
+import { sendComment } from "./action/sendComment";
 import { sendVerifyCode } from "./action/sendVerifyCode";
 import { signIn } from "./action/signIn";
 import { signOut } from "./action/signOut";
 import { signUp } from "./action/signUp";
-import { updatePassword } from "./action/updatePassword";
 import { starBook } from "./action/starBook";
+import { unDoneWord } from "./action/unDoneWord";
 import { unStarBook } from "./action/unStarBook";
-import { sendComment } from "./action/sendComment";
-import { votePost } from "./action/votePost";
 import { unVotePost } from "./action/unVotePost";
+import { updatePassword } from "./action/updatePassword";
+import { votePost } from "./action/votePost";
+// loaders
+import { getAllBooks } from "./loader/getAllBooks";
+import { getBookDetail } from "./loader/getBookDetail";
+import { getDoneWordsOfBook } from "./loader/getDoneWordsOfBook";
+import { getIsPostVote } from "./loader/getIsPostVote";
+import { getIsWordDone } from "./loader/getIsWordDone";
+import { getMultipleWordsStatus } from "./loader/getMultipleWordsStatus";
+import { getMyUserInfo } from "./loader/getMyUserInfo";
+import { getPostVote } from "./loader/getPostVote";
+import { getStarBooks } from "./loader/getStarBooks";
+import { getStudyCalendar } from "./loader/getStudyCalendar";
+import { getUnDoneWordsOfBook } from "./loader/getUnDoneWordsOfBook";
+import { getWordCognates } from "./loader/getWordCognates";
+import { getWordComments } from "./loader/getWordComments";
+import { getWordDetail } from "./loader/getWordDetail";
+import { getWordPhrases } from "./loader/getWordPhrases";
+import { getWordSentences } from "./loader/getWordSentences";
+import { getWordsOfBook } from "./loader/getWordsOfBook";
+import { getWordsOfKeyword } from "./loader/getWordsOfKeyword";
+import { getWordSynonyms } from "./loader/getWordSynonyms";
+import { getWordTranslations } from "./loader/getWordTranslations";
 
 export const appRouter = t.router({
   loader: t.router({

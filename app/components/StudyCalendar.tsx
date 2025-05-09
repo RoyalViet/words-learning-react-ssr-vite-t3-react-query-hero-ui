@@ -1,11 +1,12 @@
-import { Tooltip } from "@heroui/react";
-import { useAtomValue } from "jotai";
+import { useEffect } from "react";
 import { Activity, ActivityCalendar } from "react-activity-calendar";
+import { Tooltip } from "@heroui/react";
+import dayjs from "dayjs";
+import { useAtomValue } from "jotai";
+
+import { isProfileModalOpenAtom } from "~/common/store";
 import { useGetStudyCalendarQuery } from "~/hooks/request/query/useGetStudyCalendarQuery";
 import { useAppTheme } from "~/hooks/useAppTheme";
-import dayjs from "dayjs";
-import { useEffect } from "react";
-import { isProfileModalOpenAtom } from "~/common/store";
 
 const getCalendarData = (
   studyCalendar: {
@@ -56,6 +57,7 @@ export const StudyCalendar = () => {
     if (isProfileModalOpen) {
       getStudyCalendarQuery.refetch();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isProfileModalOpen]);
 
   return (

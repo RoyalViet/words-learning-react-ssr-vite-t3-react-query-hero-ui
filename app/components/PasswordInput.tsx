@@ -1,7 +1,8 @@
-import { Button, Input, InputProps } from "@heroui/react";
-import { LuIcon } from "./LuIcon";
 import { forwardRef, Ref, useState } from "react";
+import { Button, Input, InputProps } from "@heroui/react";
 import { Eye, EyeOff } from "lucide-react";
+
+import { LuIcon } from "./LuIcon";
 
 export const PasswordInput = forwardRef(
   (props: InputProps, ref: Ref<HTMLInputElement>) => {

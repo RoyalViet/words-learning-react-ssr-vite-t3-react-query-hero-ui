@@ -1,25 +1,27 @@
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Input,
-  ModalFooter,
-  Button,
-  Link,
-} from "@heroui/react";
-import { useAtom, useSetAtom } from "jotai";
-import { useZodForm } from "~/hooks/useZodForm";
-import { FormFieldError } from "./FormFieldError";
-import { signUpForm } from "~/common/formSchema";
 import toast from "react-hot-toast";
-import { SendVerifyCodeButton } from "./SendVerifyCodeButton";
-import { LuIcon } from "./LuIcon";
-import { Dices } from "lucide-react";
+import {
+  Button,
+  Input,
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@heroui/react";
 import { Chance } from "chance";
-import { PasswordInput } from "./PasswordInput";
-import { useSignUpMutation } from "~/hooks/request/mutation/useSignUpMutation";
+import { useAtom, useSetAtom } from "jotai";
+import { Dices } from "lucide-react";
+
+import { signUpForm } from "~/common/formSchema";
 import { isSignInModalOpenAtom, isSignUpModalOpenAtom } from "~/common/store";
+import { useSignUpMutation } from "~/hooks/request/mutation/useSignUpMutation";
+import { useZodForm } from "~/hooks/useZodForm";
+
+import { FormFieldError } from "./FormFieldError";
+import { LuIcon } from "./LuIcon";
+import { PasswordInput } from "./PasswordInput";
+import { SendVerifyCodeButton } from "./SendVerifyCodeButton";
 
 export const SignUpModal = () => {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useAtom(

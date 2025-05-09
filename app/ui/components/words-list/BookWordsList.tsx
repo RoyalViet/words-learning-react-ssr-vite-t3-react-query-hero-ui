@@ -1,10 +1,11 @@
+import { useEffect, useRef } from "react";
+import useInfiniteScroll from "react-infinite-scroll-hook";
+import { useParams } from "react-router";
 import { Divider, Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { SearchX } from "lucide-react";
-import { useEffect, useRef } from "react";
-import useInfiniteScroll from "react-infinite-scroll-hook";
-import { useParams } from "react-router";
+
 import { listTabAtom } from "~/common/store";
 import { trpcClient } from "~/common/trpc";
 import { IPageWordsParams, ListTabType } from "~/common/types";
@@ -12,6 +13,7 @@ import { LuIcon } from "~/components/LuIcon";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { useMobile } from "~/hooks/useMobile";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+
 import { DetailWord } from "../DetailWord";
 import { DictionaryEntry } from "../DictionaryEntry";
 import { ListTabs } from "../ListTabs";
@@ -67,6 +69,7 @@ export const BookWordsList = () => {
     enabled:
       isLogin && !!bookSlug && !searchWord && listTab === ListTabType.DONE,
   });
+
   const getUnDoneWordsOfBook = useInfiniteQuery({
     queryKey: ["getUnDoneWordsOfBook", bookSlug, listTab],
     queryFn: async ({ pageParam }) => {
@@ -89,15 +92,20 @@ export const BookWordsList = () => {
     enabled:
       isLogin && !!bookSlug && !searchWord && listTab === ListTabType.UNDONE,
   });
+
   const wordsQueryMap = {
     [ListTabType.ALL]: getWordsOfBookQuery,
     [ListTabType.DONE]: getDoneWordsOfBookQuery,
     [ListTabType.UNDONE]: getUnDoneWordsOfBook,
   };
+
   const wordsQuery = wordsQueryMap[listTab];
+
   useEffect(() => {
     wordsQuery.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listTab]);
+
   const [sentryRef, { rootRef }] = useInfiniteScroll({
     loading: wordsQuery.isFetching,
     hasNextPage: wordsQuery.hasNextPage,

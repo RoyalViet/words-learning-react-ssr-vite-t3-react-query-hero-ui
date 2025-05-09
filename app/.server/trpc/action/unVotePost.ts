@@ -1,8 +1,9 @@
-import { db } from "~/.server/db";
-import { p } from "~/.server/trpc";
-import { UsersToPostsVote } from "~/.server/db/schema";
-import { z } from "zod";
 import { and, eq } from "drizzle-orm";
+import { z } from "zod";
+
+import { db } from "~/.server/db";
+import { UsersToPostsVote } from "~/.server/db/schema";
+import { p } from "~/.server/trpc";
 
 export const unVotePost = p.auth
   .input(z.object({ postId: z.number().int() }))

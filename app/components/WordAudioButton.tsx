@@ -1,9 +1,11 @@
-import { Button } from "@heroui/react";
 import { useEffect, useRef, useState } from "react";
-import { LuIcon } from "./LuIcon";
-import { PauseCircle, PlayCircle } from "lucide-react";
+import { Button } from "@heroui/react";
 import { useAtomValue } from "jotai";
+import { PauseCircle, PlayCircle } from "lucide-react";
+
 import { wordDetailSlugAtom } from "~/common/store";
+
+import { LuIcon } from "./LuIcon";
 
 export const WordAudioButton = ({ word }: { word: string }) => {
   const wordDetailSlug = useAtomValue(wordDetailSlugAtom);

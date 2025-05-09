@@ -1,8 +1,10 @@
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
+
 import { db } from "~/.server/db";
 import { UsersToBooks } from "~/.server/db/schema";
+
 import { p } from "..";
-import { and, eq } from "drizzle-orm";
 
 export const unStarBook = p.auth
   .input(z.object({ bookSlug: z.string() }))

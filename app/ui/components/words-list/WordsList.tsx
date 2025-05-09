@@ -1,13 +1,15 @@
-import { Divider, Spinner } from "@heroui/react";
-import { SearchX } from "lucide-react";
 import { useEffect, useRef } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
-import { LuIcon } from "~/components/LuIcon";
-import { DictionaryEntry } from "../DictionaryEntry";
-import { DetailWord } from "../DetailWord";
-import { ListTabs } from "../ListTabs";
-import { IWordItem } from "~/common/types";
+import { Divider, Spinner } from "@heroui/react";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { SearchX } from "lucide-react";
+
+import { IWordItem } from "~/common/types";
+import { LuIcon } from "~/components/LuIcon";
+
+import { DetailWord } from "../DetailWord";
+import { DictionaryEntry } from "../DictionaryEntry";
+import { ListTabs } from "../ListTabs";
 
 interface WordsListProps {
   wordsQuery: UseInfiniteQueryResult<

@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { trpcClient } from "~/common/trpc";
 
 export const useGetWordSynonymsQuery = ({ wordSlug }: { wordSlug: string }) =>

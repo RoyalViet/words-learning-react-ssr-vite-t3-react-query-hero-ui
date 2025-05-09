@@ -1,8 +1,9 @@
 import { Button } from "@heroui/react";
-import { LuIcon } from "~/components/LuIcon";
-import { X } from "lucide-react";
 import { useSetAtom } from "jotai";
+import { X } from "lucide-react";
+
 import { isCollapsibleSidebarOpenAtom } from "~/common/store";
+import { LuIcon } from "~/components/LuIcon";
 
 export const CloseMenuButton = () => {
   const setIsCollapsibleSidebarOpen = useSetAtom(isCollapsibleSidebarOpenAtom);

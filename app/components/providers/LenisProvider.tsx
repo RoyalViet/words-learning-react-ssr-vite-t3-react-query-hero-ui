@@ -1,6 +1,7 @@
-import { useEffect, useRef, ReactNode, useState } from "react";
-import Lenis from "lenis";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
+import Lenis from "lenis";
+
 import { LenisContext } from "~/hooks/useLenis";
 
 interface LenisProviderProps {

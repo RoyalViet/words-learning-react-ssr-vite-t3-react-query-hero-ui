@@ -1,6 +1,7 @@
 import { Toaster as ReactToaster } from "react-hot-toast";
-import { Bell, CheckCircle, CircleAlert } from "lucide-react";
 import { colors } from "@heroui/react";
+import { Bell, CheckCircle, CircleAlert } from "lucide-react";
+
 import { LuIcon } from "./LuIcon";
 
 export const Toaster = () => {

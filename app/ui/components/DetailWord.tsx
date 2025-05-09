@@ -1,16 +1,18 @@
 import { Button, Card, CardBody } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+
 import {
   isWordDetailPanelDrawerOpenAtom,
   wordDetailAtom,
 } from "~/common/store";
 import { IWordItem } from "~/common/types";
 import { DoneWordButton } from "~/components/DoneWordButton";
+import { cx } from "~/helper/common";
+
 import { WordAudioButton } from "./WordAudioButton";
 import { WordCommentForm } from "./WordCommentForm";
-import { AnimatePresence, motion } from "framer-motion";
-import { cx } from "~/helper/common";
 
 export const DetailWord: React.FC<{ isWordLoading?: boolean }> = () => {
   const [wordDetail] = useAtom(wordDetailAtom);

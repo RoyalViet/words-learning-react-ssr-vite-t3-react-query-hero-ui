@@ -1,6 +1,7 @@
 import BoringAvatar from "boring-avatars";
 import { useAtom } from "jotai";
 import { useIsClient } from "usehooks-ts";
+
 import { isProfileModalOpenAtom } from "~/common/store";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 

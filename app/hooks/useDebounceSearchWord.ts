@@ -1,5 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useDebounceValue } from "usehooks-ts";
+
 import { searchWordAtom } from "~/common/store";
 
 export const useDebounceSearchWord = () => {

@@ -1,15 +1,16 @@
 import { Drawer, DrawerBody, DrawerContent } from "@heroui/react";
 import { useAtom, useAtomValue } from "jotai";
+import { X } from "lucide-react";
 
 import {
   isWordDetailPanelDrawerOpenAtom,
   wordDetailAtom,
 } from "~/common/store";
-import { useMobile } from "~/hooks/useMobile";
-import { DetailContent } from "./DetailWord";
 import { IWordItem } from "~/common/types";
 import { LuIcon } from "~/components/LuIcon";
-import { X } from "lucide-react";
+import { useMobile } from "~/hooks/useMobile";
+
+import { DetailContent } from "./DetailWord";
 
 export const DetailWordModal = () => {
   const { isMobile } = useMobile();

@@ -1,5 +1,6 @@
 import cookie, { SerializeOptions } from "cookie";
-import { IS_PROD, COOKIE_MAX_AGE } from "~/common/constants";
+
+import { COOKIE_MAX_AGE,IS_PROD } from "~/common/constants";
 
 const getCookie = (req: Request, name: string) => {
   const cookieHeader = req.headers.get("Cookie");

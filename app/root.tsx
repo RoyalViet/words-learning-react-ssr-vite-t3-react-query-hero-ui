@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Links,
   LinksFunction,
@@ -6,16 +7,17 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { trpcServer } from "~/common/trpc";
-import { HeroUIProvider } from "@heroui/react";
-import { GlobalComponents } from "~/components/GlobalComponents";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import type { Route } from "./+types/root";
-import globalStyle from "~/global.css?url";
 import merriweatherStyle from "@fontsource/merriweather/latin-400?url";
+import { HeroUIProvider } from "@heroui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+import { trpcServer } from "~/common/trpc";
+import { GlobalComponents } from "~/components/GlobalComponents";
+import globalStyle from "~/global.css?url";
 import { AppLayout } from "~/layouts";
+
+import type { Route } from "./+types/root";
 
 export const loader = async (args: Route.LoaderArgs) => {
   const [{ myUserInfo }, { allBooks }, { starBooks }] = await Promise.all([

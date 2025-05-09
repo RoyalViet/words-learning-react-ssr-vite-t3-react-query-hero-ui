@@ -1,5 +1,6 @@
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import { useLenis } from "~/hooks/useLenis";
 
 export const ScrollToTopButton = () => {

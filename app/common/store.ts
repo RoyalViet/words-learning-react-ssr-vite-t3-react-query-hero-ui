@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+
 import { IWordItem, ListTabType } from "./types";
 
 export const isCollapsibleSidebarOpenAtom = atom(false);

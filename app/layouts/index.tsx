@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import { Drawer, DrawerBody, DrawerContent } from "@heroui/react";
 import { useAtom } from "jotai";
 import { X } from "lucide-react";
-import { ReactNode } from "react";
+
 import { isBooksPanelDrawerOpenAtom } from "~/common/store";
 import { IBookItem } from "~/common/types";
 import { LuIcon } from "~/components/LuIcon";

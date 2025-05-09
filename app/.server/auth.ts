@@ -1,9 +1,11 @@
+import { eq, sql } from "drizzle-orm";
 import jwt from "jsonwebtoken";
+
 import { JWT_KEY } from "~/common/constants";
+
+import { User } from "./db/schema";
 import { Cookies } from "./cookies";
 import { db } from "./db";
-import { User } from "./db/schema";
-import { eq, sql } from "drizzle-orm";
 
 const prepare = db
   .select()

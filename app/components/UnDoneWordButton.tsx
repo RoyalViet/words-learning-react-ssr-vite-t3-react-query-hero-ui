@@ -1,15 +1,17 @@
 import { Button } from "@heroui/react";
 import { Check } from "lucide-react";
-import { LuIcon } from "./LuIcon";
-import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+
 import { useUnDoneWordMutation } from "~/hooks/request/mutation/useUnDoneWordMutation";
+import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+
+import { LuIcon } from "./LuIcon";
 
 export const UnDoneWordButton = ({
   wordSlug,
   onPress,
 }: {
   wordSlug: string;
-  onPress?: Function;
+  onPress?: () => void;
 }) => {
   const { isLogin } = useMyUserInfo();
   const unDoneWordMutation = useUnDoneWordMutation({ wordSlug });

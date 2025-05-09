@@ -1,4 +1,5 @@
 import { useLoaderData, useOutletContext } from "react-router";
+
 import { IUserInfo } from "~/common/types";
 import { loader } from "~/root";
 

@@ -1,16 +1,18 @@
+import { useState } from "react";
 import { Button, Card, CardBody, Divider } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { IWordItem } from "~/common/types";
-import { WordAudioButton } from "./WordAudioButton";
 import { useAtom, useSetAtom } from "jotai";
+
 import {
   isWordDetailPanelDrawerOpenAtom,
   wordDetailAtom,
 } from "~/common/store";
+import { IWordItem } from "~/common/types";
 import { DoneWordButton } from "~/components/DoneWordButton";
 import { cx } from "~/helper/common";
+
+import { WordAudioButton } from "./WordAudioButton";
 
 export interface WordEntry {
   id: string;
@@ -18,7 +20,7 @@ export interface WordEntry {
 }
 
 interface DictionaryEntryProps extends WordEntry {
-  // onToggleFavorite: () => void;
+  onToggleFavorite?: () => void;
 }
 
 export function DictionaryEntry({ info }: DictionaryEntryProps) {

@@ -1,15 +1,17 @@
-import { Divider, Spinner } from "@heroui/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { SearchX } from "lucide-react";
 import { useEffect, useRef } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useParams } from "react-router";
+import { Divider, Spinner } from "@heroui/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { SearchX } from "lucide-react";
+
 import { trpcClient } from "~/common/trpc";
 import { IPageWordsParams } from "~/common/types";
 import { LuIcon } from "~/components/LuIcon";
 import { useDebounceSearchWord } from "~/hooks/useDebounceSearchWord";
 import { useMobile } from "~/hooks/useMobile";
 import { useMyUserInfo } from "~/hooks/useMyUserInfo";
+
 import { DetailWord } from "../DetailWord";
 import { DictionaryEntry } from "../DictionaryEntry";
 import { ListTabs } from "../ListTabs";

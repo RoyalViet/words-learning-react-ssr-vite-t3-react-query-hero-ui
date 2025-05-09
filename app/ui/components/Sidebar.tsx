@@ -1,7 +1,9 @@
 import React from "react";
+import { href, Link, useParams } from "react-router";
 import { Button, Card, CardBody } from "@heroui/react";
-import { cx } from "~/helper/common";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
+
 import {
   isBooksPanelDrawerOpenAtom,
   isCollapsibleSidebarOpenAtom,
@@ -9,11 +11,12 @@ import {
   wordDetailSlugAtom,
 } from "~/common/store";
 import { IBookItem } from "~/common/types";
-import { href, Link, useParams } from "react-router";
-import { BooksPanel } from "./BooksPanel";
+import { cx } from "~/helper/common";
 import { useMobile } from "~/hooks/useMobile";
-import { AnimatePresence, motion } from "framer-motion";
+
 import Image from "../common/Image";
+
+import { BooksPanel } from "./BooksPanel";
 
 export const Sidebar: React.FC<{
   allBooks: IBookItem[];
@@ -51,6 +54,7 @@ export const Sidebar: React.FC<{
             {booksList.map((item) => {
               return (
                 <Button
+                  key={item.slug}
                   variant="light"
                   className={cx(
                     "hover:bg-default-100 h-12 w-full justify-start rounded-none transition-all duration-300 ease-out",

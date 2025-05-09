@@ -1,11 +1,12 @@
 import { Button, Image } from "@heroui/react";
+
 import { useAppTheme } from "~/hooks/useAppTheme";
 
 export const GithubButton = () => {
   const { isDarkMode } = useAppTheme();
 
   return (
-    <a href="https://github.com/" target="_blank">
+    <a href="https://github.com/" target="_blank" rel="noreferrer">
       <Button variant="flat" color="default" className="w-full">
         <Image
           alt="github"

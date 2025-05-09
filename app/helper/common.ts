@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";
 

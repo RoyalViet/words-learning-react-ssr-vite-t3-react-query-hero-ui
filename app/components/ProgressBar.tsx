@@ -1,5 +1,5 @@
-import { Progress } from "@heroui/react";
 import { useNavigation } from "react-router";
+import { Progress } from "@heroui/react";
 
 export const ProgressBar = () => {
   const { state } = useNavigation();
@@ -15,7 +15,7 @@ export const ProgressBar = () => {
   return (
     <Progress
       aria-label="Loading..."
-      style={{ opacity: !!value ? 1 : 0 }}
+      style={{ opacity: value ? 1 : 0 }}
       className="fixed inset-0 z-50 h-[2px]"
       value={value}
     />

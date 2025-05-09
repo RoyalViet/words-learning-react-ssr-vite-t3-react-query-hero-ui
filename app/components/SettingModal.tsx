@@ -9,8 +9,10 @@ import {
   Switch,
 } from "@heroui/react";
 import { useAtom } from "jotai";
+
 import { isSettingModalOpenAtom } from "~/common/store";
 import { useAppTheme } from "~/hooks/useAppTheme";
+
 import { GithubButton } from "./GithubButton";
 import { SignOutButton } from "./SignOutButton";
 

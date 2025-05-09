@@ -1,17 +1,18 @@
 import { Button } from "@heroui/react";
-import { useMyUserInfo } from "~/hooks/useMyUserInfo";
-import { useDoneWordMutation } from "~/hooks/request/mutation/useDoneWordMutation";
 import { Icon } from "@iconify/react";
-import { useUnDoneWordMutation } from "~/hooks/request/mutation/useUnDoneWordMutation";
 import { useAtomValue, useSetAtom } from "jotai";
+
 import { wordsDoneStatusAtom } from "~/common/store";
+import { useDoneWordMutation } from "~/hooks/request/mutation/useDoneWordMutation";
+import { useUnDoneWordMutation } from "~/hooks/request/mutation/useUnDoneWordMutation";
+import { useMyUserInfo } from "~/hooks/useMyUserInfo";
 
 export const DoneWordButton = ({
   wordSlug,
   onPress,
 }: {
   wordSlug: string;
-  onPress?: Function;
+  onPress?: () => void;
 }) => {
   const { isLogin } = useMyUserInfo();
   const doneWordMutation = useDoneWordMutation({ wordSlug });

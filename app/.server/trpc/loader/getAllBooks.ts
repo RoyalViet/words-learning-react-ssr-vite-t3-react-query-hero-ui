@@ -1,7 +1,8 @@
-import { db } from "~/.server/db";
-import { p } from "~/.server/trpc";
 import { count, eq } from "drizzle-orm";
+
+import { db } from "~/.server/db";
 import { Book, Word } from "~/.server/db/schema";
+import { p } from "~/.server/trpc";
 
 const prepare = db
   .select({

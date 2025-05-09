@@ -1,13 +1,13 @@
 import { relations } from "drizzle-orm";
 import {
+  AnyPgColumn,
   integer,
   pgTable,
   primaryKey,
   serial,
+  text,
   timestamp,
   varchar,
-  text,
-  AnyPgColumn,
 } from "drizzle-orm/pg-core";
 
 // tables

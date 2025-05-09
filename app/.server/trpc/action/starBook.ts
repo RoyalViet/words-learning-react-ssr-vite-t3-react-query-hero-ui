@@ -1,7 +1,8 @@
-import { db } from "~/.server/db";
-import { p } from "~/.server/trpc";
-import { UsersToBooks } from "~/.server/db/schema";
 import { z } from "zod";
+
+import { db } from "~/.server/db";
+import { UsersToBooks } from "~/.server/db/schema";
+import { p } from "~/.server/trpc";
 
 export const starBook = p.auth
   .input(z.object({ bookSlug: z.string() }))

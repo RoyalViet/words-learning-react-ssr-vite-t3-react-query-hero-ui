@@ -1,10 +1,10 @@
-import { Button } from "@heroui/react";
 import { useEffect, useRef, useState } from "react";
-
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 import { useAtomValue } from "jotai";
+
 import { wordDetailAtom, wordDetailSlugAtom } from "~/common/store";
 import { cx } from "~/helper/common";
-import { Icon } from "@iconify/react";
 
 export const WordAudioButton = ({
   isUk = false,

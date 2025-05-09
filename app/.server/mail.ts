@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+
 import { IS_PROD } from "~/common/constants";
 
 // you can change to your custom SMTP config

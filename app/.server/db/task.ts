@@ -1,8 +1,8 @@
 // import { sql } from "drizzle-orm";
-import { db } from ".";
 import { Word } from "./schema";
 import { Book } from "./schema";
 import { booksData, wordsData } from "./seed";
+import { db } from ".";
 
 // here to run some db task
 const runTask = async () => {
