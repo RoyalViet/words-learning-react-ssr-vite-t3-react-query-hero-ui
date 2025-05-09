@@ -61,12 +61,14 @@ export const WordCommentForm = () => {
           <Button
             color="primary"
             type="submit"
-            isDisabled={!isLogin}
+            // isDisabled={!isLogin}
+            isDisabled={true}
             isLoading={
               form.formState.isSubmitting || sendCommentMutation.isPending
             }
           >
-            Submit
+            {/* Submit */}
+            Coming Soon
           </Button>
         </div>
       </form>

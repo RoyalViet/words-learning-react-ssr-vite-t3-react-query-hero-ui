@@ -24,7 +24,7 @@ interface DictionaryEntryProps extends WordEntry {
 export function DictionaryEntry({ info }: DictionaryEntryProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const { Word } = info || {};
-  const { word, type, translation, remember } = Word || {};
+  const { word, type, translation, remember, usAudioMp3 } = Word || {};
 
   const setIsWordDetailPanelDrawerOpen = useSetAtom(
     isWordDetailPanelDrawerOpenAtom,
@@ -40,7 +40,7 @@ export function DictionaryEntry({ info }: DictionaryEntryProps) {
               <div className="flex w-full items-center justify-between gap-1">
                 <h2 className="text-xl font-semibold">{word}</h2>
                 <div className="flex gap-2">
-                  <WordAudioButton word={word!} />
+                  <WordAudioButton usAudioMp3={usAudioMp3 || ""} word={word!} />
                   <DoneWordButton wordSlug={Word?.slug || ""} />
                   <Button
                     isIconOnly
