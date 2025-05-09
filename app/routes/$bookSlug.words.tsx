@@ -3,7 +3,6 @@ import { WordsSection } from "~/ui/components/words-list/WordsSection";
 export default function PageWords() {
   return (
     <div className="flex w-full flex-col">
-      {/* {searchWord ? <SearchWordsList /> : <BookWordsList />} */}
       <WordsSection />
     </div>
   );

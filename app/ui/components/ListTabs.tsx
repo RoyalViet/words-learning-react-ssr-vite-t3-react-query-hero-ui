@@ -14,6 +14,7 @@ export const ListTabs = () => {
     { key: ListTabType.ALL, label: "All", disabled: false },
     { key: ListTabType.DONE, label: "Learned", disabled: !isLogin },
     { key: ListTabType.UNDONE, label: "Not Learned", disabled: !isLogin },
+    { key: ListTabType.RANDOM, label: "Random", disabled: false },
   ];
 
   return (

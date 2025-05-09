@@ -22,6 +22,7 @@ import { getIsWordDone } from "./loader/getIsWordDone";
 import { getMultipleWordsStatus } from "./loader/getMultipleWordsStatus";
 import { getMyUserInfo } from "./loader/getMyUserInfo";
 import { getPostVote } from "./loader/getPostVote";
+import { getRandomUndoneWords } from "./loader/getRandomUndoneWords";
 import { getStarBooks } from "./loader/getStarBooks";
 import { getStudyCalendar } from "./loader/getStudyCalendar";
 import { getUnDoneWordsOfBook } from "./loader/getUnDoneWordsOfBook";
@@ -57,6 +58,7 @@ export const appRouter = t.router({
     getPostVote,
     getIsPostVote,
     getMultipleWordsStatus,
+    getRandomUndoneWords,
   }),
   action: t.router({
     doneWord,

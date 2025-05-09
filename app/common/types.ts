@@ -36,4 +36,5 @@ export enum ListTabType {
   ALL = "ALL",
   DONE = "DONE",
   UNDONE = "UNDONE",
+  RANDOM = "RANDOM",
 }

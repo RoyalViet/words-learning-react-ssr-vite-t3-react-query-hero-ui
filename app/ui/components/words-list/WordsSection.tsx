@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { useParams } from "react-router";
-import { Divider, Spinner } from "@heroui/react";
+import { Button, Divider, Input, Spinner } from "@heroui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
-import { SearchX } from "lucide-react";
+import { SearchX, Shuffle } from "lucide-react";
 
 import { listTabAtom, wordsDoneStatusAtom } from "~/common/store";
 import { trpcClient } from "~/common/trpc";
@@ -26,9 +26,13 @@ export const WordsSection: React.FC = () => {
   const { searchWord } = useDebounceSearchWord();
   const { isLogin } = useMyUserInfo();
   const listTab = useAtomValue(listTabAtom);
-
+  const topRef = useRef<HTMLDivElement>(null);
   const { isMobile } = useMobile();
 
+  // const [randomWords, setRandomWords] = useState<IWordItem[]>([]);
+  const [randomWordCount, setRandomWordCount] = useState<number>(5);
+
+  // Fetch words of the keyword
   const getWordsOfKeywordQuery = useInfiniteQuery({
     queryKey: ["getWordsOfKeyword", bookSlug, searchWord],
     queryFn: async ({ pageParam }) => {
@@ -51,6 +55,7 @@ export const WordsSection: React.FC = () => {
     enabled: !!searchWord,
   });
 
+  // Fetch words of the book
   const getWordsOfBookQuery = useInfiniteQuery({
     queryKey: ["getWordsOfBook", bookSlug],
     queryFn: async ({ pageParam }) => {
@@ -73,6 +78,7 @@ export const WordsSection: React.FC = () => {
     enabled: !!bookSlug && !searchWord && listTab === ListTabType.ALL,
   });
 
+  // Fetch done and undone words of the book
   const getDoneWordsOfBookQuery = useInfiniteQuery({
     queryKey: ["getDoneWordsOfBook", bookSlug, listTab],
     queryFn: async ({ pageParam }) => {
@@ -96,6 +102,7 @@ export const WordsSection: React.FC = () => {
       isLogin && !!bookSlug && !searchWord && listTab === ListTabType.DONE,
   });
 
+  // Fetch undone words of the book
   const getUnDoneWordsOfBook = useInfiniteQuery({
     queryKey: ["getUnDoneWordsOfBook", bookSlug, listTab],
     queryFn: async ({ pageParam }) => {
@@ -119,18 +126,39 @@ export const WordsSection: React.FC = () => {
       isLogin && !!bookSlug && !searchWord && listTab === ListTabType.UNDONE,
   });
 
+  // Fetch random undone words of the book
+  const getRandomWordsOfBook = useInfiniteQuery({
+    queryKey: ["getRandomWordsOfBook", bookSlug, randomWordCount],
+    queryFn: async () => {
+      return trpcClient.loader.getRandomUndoneWords.query({
+        count: randomWordCount,
+        bookSlug,
+      });
+    },
+    initialPageParam: 0,
+    getNextPageParam: () => {
+      // Always return undefined to prevent fetching next pages
+      return undefined;
+    },
+    select(data) {
+      return data.pages.map((e) => e.randomUndoneWords);
+    },
+    enabled: !!bookSlug && !!randomWordCount && listTab === ListTabType.RANDOM,
+  });
+
+  // Preserve the word slugs we've already checked regardless of which tab is selected
+  const [allCheckedWordSlugs] = useState<Set<string>>(new Set());
+
   const wordsQueryMap = {
     [ListTabType.ALL]: getWordsOfBookQuery,
     [ListTabType.DONE]: getDoneWordsOfBookQuery,
     [ListTabType.UNDONE]: getUnDoneWordsOfBook,
+    [ListTabType.RANDOM]: getRandomWordsOfBook,
   };
 
   const wordsQuery = searchWord
     ? getWordsOfKeywordQuery
     : wordsQueryMap[listTab];
-
-  // Preserve the word slugs we've already checked regardless of which tab is selected
-  const [allCheckedWordSlugs] = useState<Set<string>>(new Set());
 
   // Modified useEffect to avoid infinite refetch loops
   useEffect(() => {
@@ -138,7 +166,7 @@ export const WordsSection: React.FC = () => {
       wordsQuery.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listTab, searchWord]); // Removed wordsQuery from dependencies
+  }, [listTab, searchWord]);
 
   const [sentryRef, { rootRef }] = useInfiniteScroll({
     loading: wordsQuery.isFetching,
@@ -151,8 +179,6 @@ export const WordsSection: React.FC = () => {
   const showWordsList = wordsQuery.data || [];
   const allWords = showWordsList.flat(2);
   const totalCount = allWords.length;
-
-  const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     topRef.current?.scrollIntoView({ block: "end" });
@@ -272,6 +298,25 @@ export const WordsSection: React.FC = () => {
                 <ListTabs />
               </div>
               <Divider className="my-2" />
+            </div>
+          )}
+          {listTab === ListTabType.RANDOM && (
+            <div className="flex w-full items-center gap-4 sm:flex-col sm:items-start sm:px-4">
+              <p className="text-left md:hidden">Number of random words:</p>
+              <Input
+                type="number"
+                value={randomWordCount.toString()}
+                onChange={(e) => setRandomWordCount(Number(e.target.value))}
+                placeholder="Enter count of random words"
+                className="w-1/2 sm:w-full"
+              />
+              <Button
+                className="flex flex-1 items-center gap-2 sm:w-full sm:p-2"
+                onPress={() => wordsQuery.refetch()}
+              >
+                <LuIcon icon={Shuffle} size={20} />
+                Random Words
+              </Button>
             </div>
           )}
           {renderContent()}
